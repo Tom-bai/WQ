@@ -2,91 +2,102 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 Vue.use(Router);
-
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
-            redirect: '/dashboard'
+            redirect: '/404',
+            meta: { title: '404' }
         },
         {
             path: '/',
             component: () => import(/* webpackChunkName: "home" */ '../components/common/Home.vue'),
             meta: { title: '自述文件' },
             children: [
+                // admin
                 {
-                    path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
-                    meta: { title: '系统首页' }
+                    path: '/adminIndex',
+                    component: () => import(/* webpackChunkName: "adminIndex" */ '../components/page/adminIndex.vue'),
+                    meta: { title: '系统首页', permission: true}
                 },
                 {
-                    path: '/icon',
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/Icon.vue'),
-                    meta: { title: '自定义图标' }
+                    path: '/adminIndexChild',
+                    component: () => import(/* webpackChunkName: "adminIndexChild" */ '../components/page/adminIndexChild.vue'),
+                    meta: { title: '子账户列表', permission: true }
                 },
                 {
-                    path: '/table',
-                    component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
-                    meta: { title: '基础表格' }
+                    path: '/adminFormEdit',
+                    component: () => import(/* webpackChunkName: "adminForm" */ '../components/page/adminFormEdit.vue'),
+                    meta: { title: '会员编辑', permission: true }
                 },
                 {
-                    path: '/tabs',
-                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Tabs.vue'),
-                    meta: { title: 'tab选项卡' }
+                    path: '/adminFormAdd',
+                    component: () => import(/* webpackChunkName: "adminFormAdd" */ '../components/page/adminFormAdd.vue'),
+                    meta: { title: '新增会员', permission: true }
                 },
                 {
-                    path: '/form',
-                    component: () => import(/* webpackChunkName: "form" */ '../components/page/BaseForm.vue'),
-                    meta: { title: '基本表单' }
+                    path: '/adminRevise',
+                    component: () => import(/* webpackChunkName: "adminRevise" */ '../components/page/adminRevise.vue'),
+                    meta: { title: '修改密码', permission: true }
                 },
                 {
-                    // 富文本编辑器组件
-                    path: '/editor',
-                    component: () => import(/* webpackChunkName: "editor" */ '../components/page/VueEditor.vue'),
-                    meta: { title: '富文本编辑器' }
+                    path: '/adminAd',
+                    component: () => import(/* webpackChunkName: "adminAd" */ '../components/page/adminAd.vue'),
+                    meta: { title: '广告列表', permission: true }
                 },
                 {
-                    // markdown组件
-                    path: '/markdown',
-                    component: () => import(/* webpackChunkName: "markdown" */ '../components/page/Markdown.vue'),
-                    meta: { title: 'markdown编辑器' }
+                    path: '/adminAdAdd',
+                    component: () => import(/* webpackChunkName: "adminAdAdd" */ '../components/page/adminAdAdd.vue'),
+                    meta: { title: '添加广告', permission: true }
                 },
                 {
-                    // 图片上传组件
-                    path: '/upload',
-                    component: () => import(/* webpackChunkName: "upload" */ '../components/page/Upload.vue'),
-                    meta: { title: '文件上传' }
+                    path: '/adminAdAddEdit',
+                    component: () => import(/* webpackChunkName: "adminAdAddEdit" */ '../components/page/adminAdAddEdit.vue'),
+                    meta: { title: '编辑广告', permission: true }
+                },
+                // user
+                {
+                    path: '/userIndex',
+                    component: () => import(/* webpackChunkName: "userIndex" */ '../components/page/userIndex.vue'),
+                    meta: { title: '系统首页'}
                 },
                 {
-                    // vue-schart组件
-                    path: '/charts',
-                    component: () => import(/* webpackChunkName: "chart" */ '../components/page/BaseCharts.vue'),
-                    meta: { title: 'schart图表' }
+                    path: '/userAddvip',
+                    component: () => import(/* webpackChunkName: "userAddvip" */ '../components/page/userAddvip.vue'),
+                    meta: { title: '新增会员'}
                 },
                 {
-                    // 拖拽列表组件
-                    path: '/drag',
-                    component: () => import(/* webpackChunkName: "drag" */ '../components/page/DragList.vue'),
-                    meta: { title: '拖拽列表' }
+                    path: '/userEditvip',
+                    component: () => import(/* webpackChunkName: "userEditvip" */ '../components/page/userEditvip.vue'),
+                    meta: { title: '编辑会员'}
                 },
                 {
-                    // 拖拽Dialog组件
-                    path: '/dialog',
-                    component: () => import(/* webpackChunkName: "dragdialog" */ '../components/page/DragDialog.vue'),
-                    meta: { title: '拖拽弹框' }
+                    path: '/userAttention',
+                    component: () => import(/* webpackChunkName: "userAttention" */ '../components/page/userAttention.vue'),
+                    meta: { title: '关注管理'}
                 },
                 {
-                    // 国际化组件
-                    path: '/i18n',
-                    component: () => import(/* webpackChunkName: "i18n" */ '../components/page/I18n.vue'),
-                    meta: { title: '国际化' }
+                    path: '/userAttentionAdd',
+                    component: () => import(/* webpackChunkName: "userAttentionAdd" */ '../components/page/userAttentionAdd.vue'),
+                    meta: { title: '新增关注'}
                 },
                 {
-                    // 权限页面
-                    path: '/permission',
-                    component: () => import(/* webpackChunkName: "permission" */ '../components/page/Permission.vue'),
-                    meta: { title: '权限测试', permission: true }
+                    path: '/userAttentionEdit',
+                    component: () => import(/* webpackChunkName: "userAttentionEdit" */ '../components/page/userAttentionEdit.vue'),
+                    meta: { title: '编辑关注'}
                 },
+                {
+                    path: '/userInformation',
+                    component: () => import(/* webpackChunkName: "userInformation" */ '../components/page/userInformation.vue'),
+                    meta: { title: '信息编辑'}
+                },
+                {
+                    path: '/userRevise',
+                    component: () => import(/* webpackChunkName: "userRevise" */ '../components/page/userRevise.vue'),
+                    meta: { title: '修改密码'}
+                },
+                // no page
                 {
                     path: '/404',
                     component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),
@@ -96,11 +107,6 @@ export default new Router({
                     path: '/403',
                     component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
                     meta: { title: '403' }
-                },
-                {
-                    path: '/donate',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Donate.vue'),
-                    meta: { title: '支持作者' }
                 }
             ]
         },
@@ -112,6 +118,6 @@ export default new Router({
         {
             path: '*',
             redirect: '/404'
-        }
+        },
     ]
 });

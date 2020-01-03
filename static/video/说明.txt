@@ -1,0 +1,7 @@
+tutorial.html  //检测首页
+extract.html  //获取检测二维码页面
+solve.html  //检测问题处理说明页面
+complaint.html   //投诉页面
+submit.html  //投诉提交页面
+notice.html  //用户须知页面
+WEB-INF/video/video.jsp  //广告视频页面

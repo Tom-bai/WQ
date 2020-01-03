@@ -41,13 +41,21 @@
                 if (item) {
                     delItem.path === this.$route.fullPath && this.$router.push(item.path);
                 }else{
-                    this.$router.push('/');
+                    if (this.$store.state.state.parentId === 0) {
+                        this.$router.push('/adminIndex');
+                    } else {
+                        this.$router.push('/userIndex');
+                    }
                 }
             },
             // 关闭全部标签
             closeAll(){
                 this.tagsList = [];
-                this.$router.push('/');
+                if (this.$store.state.state.parentId === 0) {
+                    this.$router.push('/adminIndex');
+                } else {
+                    this.$router.push('/userIndex');
+                }
             },
             // 关闭其他标签
             closeOther(){

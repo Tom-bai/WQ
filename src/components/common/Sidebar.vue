@@ -4,17 +4,14 @@
             class="sidebar-el-menu"
             :default-active="onRoutes"
             :collapse="collapse"
-            background-color="#324157"
-            text-color="#bfcbd9"
-            active-text-color="#20a0ff"
             unique-opened
             router
         >
-            <template v-for="item in items">
+            <template v-for="item in getAuthority">
                 <template v-if="item.subs">
                     <el-submenu :index="item.index" :key="item.index">
                         <template slot="title">
-                            <i :class="item.icon"></i>
+                            <i :class="item.icon" class="wq-icon"></i>
                             <span slot="title">{{ item.title }}</span>
                         </template>
                         <template v-for="subItem in item.subs">
@@ -40,7 +37,7 @@
                 </template>
                 <template v-else>
                     <el-menu-item :index="item.index" :key="item.index">
-                        <i :class="item.icon"></i>
+                        <i :class="item.icon" class="wq-icon" ></i>
                         <span slot="title">{{ item.title }}</span>
                     </el-menu-item>
                 </template>
@@ -55,105 +52,58 @@ export default {
     data() {
         return {
             collapse: false,
+            authority: localStorage.getItem('ms_username'),
             items: [
                 {
-                    icon: 'el-icon-lx-home',
-                    index: 'dashboard',
+                    icon: 'icon-t7',
+                    index: 'userIndex',
                     title: '系统首页'
                 },
                 {
-                    icon: 'el-icon-lx-cascades',
-                    index: 'table',
-                    title: '基础表格'
+                    icon: 'icon-t10',
+                    index: 'userAttention',
+                    title: '关注管理'
                 },
                 {
-                    icon: 'el-icon-lx-copy',
-                    index: 'tabs',
-                    title: 'tab选项卡'
+                    icon: 'icon-t4',
+                    index: 'userInformation',
+                    title: '信息编辑'
                 },
                 {
-                    icon: 'el-icon-lx-calendar',
-                    index: '3',
-                    title: '表单相关',
-                    subs: [
-                        {
-                            index: 'form',
-                            title: '基本表单'
-                        },
-                        {
-                            index: '3-2',
-                            title: '三级菜单',
-                            subs: [
-                                {
-                                    index: 'editor',
-                                    title: '富文本编辑器'
-                                },
-                                {
-                                    index: 'markdown',
-                                    title: 'markdown编辑器'
-                                }
-                            ]
-                        },
-                        {
-                            index: 'upload',
-                            title: '文件上传'
-                        }
-                    ]
+                    icon: 'icon-t6',
+                    index: 'userRevise',
+                    title: '修改密码'
+                }
+            ],
+            itemsAdmin: [
+                {
+                    icon: 'icon-t7',
+                    index: 'adminIndex',
+                    title: '系统首页'
                 },
                 {
-                    icon: 'el-icon-lx-emoji',
-                    index: 'icon',
-                    title: '自定义图标'
+                    icon: 'icon-t11',
+                    index: 'adminAd',
+                    title: '广告列表'
                 },
                 {
-                    icon: 'el-icon-pie-chart',
-                    index: 'charts',
-                    title: 'schart图表'
-                },
-                {
-                    icon: 'el-icon-rank',
-                    index: '6',
-                    title: '拖拽组件',
-                    subs: [
-                        {
-                            index: 'drag',
-                            title: '拖拽列表'
-                        },
-                        {
-                            index: 'dialog',
-                            title: '拖拽弹框'
-                        }
-                    ]
-                },
-                {
-                    icon: 'el-icon-lx-global',
-                    index: 'i18n',
-                    title: '国际化功能'
-                },
-                {
-                    icon: 'el-icon-lx-warn',
-                    index: '7',
-                    title: '错误处理',
-                    subs: [
-                        {
-                            index: 'permission',
-                            title: '权限测试'
-                        },
-                        {
-                            index: '404',
-                            title: '404页面'
-                        }
-                    ]
-                },
-                {
-                    icon: 'el-icon-lx-redpacket_fill',
-                    index: '/donate',
-                    title: '支持作者'
+                    icon: 'icon-t6',
+                    index: 'adminRevise',
+                    title: '修改密码'
                 }
             ]
         };
     },
     computed: {
+        getAuthority() {
+            let newTiem
+            if (this.$store.state.state.parentId === 0) {
+                newTiem = this.itemsAdmin
+            } else {
+                newTiem = this.items
+            }
+            return newTiem
+        },
         onRoutes() {
             return this.$route.path.replace('/', '');
         }
@@ -163,7 +113,7 @@ export default {
         bus.$on('collapse', msg => {
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
-        });
+        });  
     }
 };
 </script>
@@ -185,5 +135,56 @@ export default {
 }
 .sidebar > ul {
     height: 100%;
+}
+/* .el-menu-item:focus, .el-menu-item:hover{
+    background-color:#9f9;
+} */
+.wq-icon{
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    background-size: 18px 18px;
+    margin-right: 5px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+.home-icon {
+    background-image: url('../../assets/img/index.png');
+}
+.icon-t1{
+    background-image: url('../../assets/img/tb1.png');
+}
+.icon-t2{
+    background-image: url('../../assets/img/tb2.png');
+}
+.icon-t3{
+    background-image: url('../../assets/img/tb3.png');
+}
+.icon-t4{
+    background-image: url('../../assets/img/tb4.png');
+}
+.icon-t5{
+    background-image: url('../../assets/img/tb5.png');
+}
+.icon-t6{
+    background-image: url('../../assets/img/tb6.png');
+}
+.icon-t7{
+    background-image: url('../../assets/img/tb7.png');
+}
+.icon-t8{
+    background-image: url('../../assets/img/tb8.png');
+}
+.icon-t9{
+    background-image: url('../../assets/img/tb9.png');
+}
+.icon-t10{
+    background-image: url('../../assets/img/tb10.png');
+}
+.icon-t11{
+    background-image: url('../../assets/img/tb11.png');
+}
+.icon-t12{
+    background-image: url('../../assets/img/tb12.png');
 }
 </style>

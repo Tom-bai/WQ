@@ -1,7 +1,7 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">后台管理系统</div>
+            <div class="ms-title">微清系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
                     <el-input v-model="param.username" placeholder="username">
@@ -21,19 +21,19 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
             </el-form>
         </div>
     </div>
 </template>
 
 <script>
+import { login,info } from '../../api/index'
 export default {
     data: function() {
         return {
             param: {
                 username: 'admin',
-                password: '123123',
+                password: '123456',
             },
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -43,11 +43,31 @@ export default {
     },
     methods: {
         submitForm() {
-            this.$refs.login.validate(valid => {
+            let that = this
+            const password = that.$md5(that.$md5(that.param.password)).toUpperCase()
+            that.$refs.login.validate(valid => {
                 if (valid) {
-                    this.$message.success('登录成功');
-                    localStorage.setItem('ms_username', this.param.username);
-                    this.$router.push('/');
+                    let query = {
+                        account: that.param.username,
+                        pwd: password
+                    }
+                    login(query).then(res => {
+                        if (res.code !== 0) {
+                            that.$message.error(res.message)
+                        } else {
+                            localStorage.setItem('token', res.data.token)
+                            info().then(res => {
+                                that.$message.success('登录成功')
+                                if ( res.data.parentId === 0) {  
+                                    that.$router.push('/adminIndex')
+                                } else {
+                                    that.$router.push('/userIndex')
+                                }
+                            })
+                        }
+                    }).catch(err => {
+                        this.$message.error(err)
+                    });
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');
