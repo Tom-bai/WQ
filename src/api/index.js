@@ -224,6 +224,27 @@ export const userAttentionSearch = query => {
     });
 };
 
+export const adminInformationInfotemp = query => {
+    return request({
+        url: `${baseUrl}/infotemp`,
+        method: 'get',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminInformationEdit = putData => {
+    return request({
+        url: `${baseUrl}/infotemp`,
+        method: 'put',
+        data: putData,
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
 export const userInformationInfo = query => {
     return request({
         url: `${baseUrl}/info`,

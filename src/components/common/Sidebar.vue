@@ -87,6 +87,11 @@ export default {
                     title: '广告列表'
                 },
                 {
+                    icon: 'icon-t4',
+                    index: 'adminInformation',
+                    title: '信息编辑'
+                },
+                {
                     icon: 'icon-t6',
                     index: 'adminRevise',
                     title: '修改密码'

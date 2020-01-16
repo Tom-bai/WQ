@@ -1,9 +1,3 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
@@ -12,7 +6,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="js/jquery.cookie.js"></script>
     <script type="text/javascript" src="js/zepto.min.js"></script>
-	<%@ include file="/WEB-INF/home/wxUtil.jsp"%> 
 
 	<link rel="stylesheet" href="css/player.css" type="text/css"></link>
     <link rel="stylesheet" href="css/weui.min.css"  type="text/css"></link>
@@ -70,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div style=" width:100%; height:46px; line-height:40px; background-color:#2E3132; color:#727577; text-align:center; font-size:12px; z-index:-1; position:fixed;">此网页由&nbsp;mp.weixin.qq.com&nbsp;提供</div>
 	<div style="padding: 20px 15px 15px;background-color: #fff;border-bottom: solid 0.5px #e4e4e4;">
 	    <!-- 文章标题 -->
-	    <h2 class="rich_media_title" id="activity-name">${video[0].preface}${city}🌟  ${video[0].til}</h2>
+	    <h2 class="rich_media_title" id="activity-name">123</h2>
 	    <!-- 公众号名称 -->
 	    <div class="rich_media_meta_list" style="margin-bottom:0;">
 	        <em id="post-date" class="rich_media_meta rich_media_meta_text" style="font-size:18px;color:#8C8C8C;"></em>
@@ -123,9 +116,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<script type="text/javascript" src="js/tvp.player_v2_zepto.js"></script>
 	<script type="text/javascript" src="js/tvp.config.js"></script>
-	
 	<script type="text/javascript">
-	    var vid="${video[0].videoId}";
+		$.ajax({
+			type: "GET",
+			url: "http://192.168.1.146:8080/?id=1",
+			dataType: "json",
+			success: function(data){
+				console.log(data);
+			}
+		});
+		console.log($.ajax());
+		
+
+	    var vid="c0567i07dnq";
 	    var delayTime = parseInt("${video[0].delayTime}");
 	    var isOS=!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
 	    
@@ -368,7 +371,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    }
 	    function jp(){//返回的时候的连接
 	    	//return;
-	        window.location.href = "http://www.baidu.com";
+	        // window.location.href = "http://www.baidu.com";
 	    }
 	
 	    window.onload=function(){

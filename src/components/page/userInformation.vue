@@ -9,7 +9,7 @@
                     <div class="container">
                         <div class="form-box">
                             <el-image
-                                style="width: 100px; height: 100px"
+                                style="width: 200px;"
                                 :src="form.imagePath"
                                 :preview-src-list="[form.imagePath]">
                             </el-image>
@@ -18,6 +18,7 @@
                                 type="textarea"
                                 class="textarea"
                                 :rows="6"
+                                disabled="disabled"
                                 placeholder="请输入内容"
                                 v-model="form.groupContent">
                             </el-input>
@@ -44,7 +45,6 @@
                             </el-input>
                             <div class="btn">
                                 <el-button type="primary" size="null" @click="onSubmit">提交保存</el-button>
-                                <el-button size="null" @click="resetForm">取消</el-button>
                             </div>
                         </div>
                     </div>
@@ -100,17 +100,15 @@ export default {
                 imagePath: '',
                 copyrightInfo: that.form.copyrightInfo
             }
-            that.$refs.form.validate(valid => {
-                userInformationEdit(data).then(res => {
-                    if (res.code === 0) {
-                        that.$message.success(res.data)
-                        that.resetForm()
-                    } else {
-                        that.$message.error(res.message)
-                    }
-                }).catch(err => {
-                    that.$message.error(err)
-                })
+            userInformationEdit(data).then(res => {
+                if (res.code === 0) {
+                    that.$message.success(res.data)
+                    // that.resetForm()
+                } else {
+                    that.$message.error(res.message)
+                }
+            }).catch(err => {
+                that.$message.error(err)
             })
         },
         resetForm() {

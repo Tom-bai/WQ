@@ -27,7 +27,9 @@
                             </template>
                         </el-table-column>
                         <el-table-column prop="total" label="总限量"></el-table-column>
+                        <el-table-column prop="allTotal" label="当前总量"></el-table-column>
                         <el-table-column prop="dayLimit" label="日限量"></el-table-column>
+                        <el-table-column prop="dayTotal" label="当前日总量"></el-table-column>
                         <el-table-column label="对象" align="center">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.gender == 0">不限</span>

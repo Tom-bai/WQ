@@ -1,7 +1,7 @@
 import axios from 'axios';
-
+import Vue from 'vue';
 const service = axios.create({
-    timeout: 5000
+    timeout: 30000
 });
 
 service.interceptors.request.use(
@@ -17,7 +17,11 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     response => {
         if (response.status === 200) {
-            return response.data;
+            if (response.data.code === 1004) {
+                window.location.href = '/Login'
+            } else {
+                return response.data;
+            }
         } else {
             Promise.reject();
         }

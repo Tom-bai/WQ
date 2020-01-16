@@ -27,7 +27,7 @@
                                 <el-dialog :visible.sync="dialogVisibleAD">
                                     <img width="100%" :src="dialogImageUrlAD" alt="">
                                 </el-dialog>
-                                <div class="title">标题（如：韶关🌟  一小孩刮了黑社会的车，黑社会打了小孩一巴掌，没想到因此摊上了大事！）</div>
+                                <div class="title">标题（如：如果需要地区请添加（#{city}）一小孩刮了黑社会的车，黑社会打了小孩一巴掌，没想到因此摊上了大事！）</div>
                                 <el-form-item prop="title" class="item">
                                     <el-input
                                         size="null"
@@ -119,13 +119,26 @@
                                         </el-dialog>
                                     </div>
                                     <div v-if="form.advType == 0">
+                                        <el-form-item  class="item">
+                                            <el-input
+                                                size="null"
+                                                placeholder="请添加url地址"
+                                                v-model="form.advPath"
+                                                clearable>
+                                            </el-input>
+                                        </el-form-item>
+                                    </div>
+                                </div>
+                                <div class="title">视频id</div>
+                                <div class="top-flex">
+                                    <el-form-item class="item">
                                         <el-input
                                             size="null"
-                                            placeholder="请添加url地址"
-                                            v-model="form.advPath"
+                                            placeholder="请添加视频id"
+                                            v-model="form.videoId"
                                             clearable>
                                         </el-input>
-                                    </div>
+                                    </el-form-item>
                                 </div>
                                 <div class="title">播放暂停时间</div>
                                 <div class="top-flex">
@@ -173,7 +186,8 @@ export default {
                 titleImage: '',
                 advType: '0',
                 advPath: '',
-                endTime: ''
+                endTime: '',
+                videoId: ''
             },
             rules: {
                 title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
@@ -238,6 +252,7 @@ export default {
                         advType: that.form.advType,
                         advPath: that.form.advPath,
                         endTime: that.form.endTime,
+                        videoId: that.form.videoId
                     }
                     adminAdvertisingPost(data).then(res => {
                         if (res.code === 0) {

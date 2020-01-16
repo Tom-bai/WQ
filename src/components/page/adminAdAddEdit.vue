@@ -127,6 +127,17 @@
                                         </el-input>
                                     </div>
                                 </div>
+                                <div class="title">视频id</div>
+                                <div class="top-flex">
+                                    <el-form-item class="item">
+                                        <el-input
+                                            size="null"
+                                            placeholder="请添加视频id"
+                                            v-model="form.videoId"
+                                            clearable>
+                                        </el-input>
+                                    </el-form-item>
+                                </div>
                                 <div class="title">播放暂停时间</div>
                                 <div class="top-flex">
                                     <el-input
@@ -174,7 +185,8 @@ export default {
                 titleImage: '',
                 advType: '0',
                 advPath: '',
-                endTime: ''
+                endTime: '',
+                videoId: ''
             },
             rules: {
                 title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
@@ -191,7 +203,7 @@ export default {
             fileListAD3: [],
             dialogImageUrlAD3: '',
             dialogVisibleAD3: false,
-            imgUrl: 'http://192.168.1.149:8080/file/download?filePath='
+            imgUrl: 'http://192.168.1.146:8080/file/download?filePath='
         };
     },
     created () {
@@ -243,6 +255,7 @@ export default {
                     advType: `${res.data.advType}`,
                     advPath: res.data.advPath,
                     endTime: res.data.endTime,
+                    videoId: res.data.videoId
                 }
                 that.fileListAD.push({
                     url: that.imgUrl + res.data.titleImage
@@ -273,6 +286,7 @@ export default {
                         advType: that.form.advType,
                         advPath: that.form.advPath,
                         endTime: that.form.endTime,
+                        videoId: that.form.videoId
                     }
                     adminAdvertisingPut(data).then(res => {
                         if (res.code === 0) {
