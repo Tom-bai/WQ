@@ -4,7 +4,7 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="top-flex">
-                        <span>关注管理 <span class="money">金币 <span>1000</span></span></span>
+                        <span>关注管理 <span class="money">金币 <span>{{goldCoin}}</span></span></span>
                         <el-button type="primary" icon="el-icon-circle-plus-outline" plain @click="userAttentionAdd">新增关注</el-button>
                     </div>
                     <!-- <div class="handle-box">
@@ -66,11 +66,12 @@
 
 <script>
 import bus from '../common/bus';
-import { userAttention } from '../../api/index';
+import { userAttention ,userChildgoldCoin} from '../../api/index';
 export default {
     name: 'userAttention',
     data() {
         return {
+            goldCoin: 0,
             name: localStorage.getItem('ms_username'),
             query: {
                 address: '',
@@ -92,6 +93,7 @@ export default {
     },
     created() {
         this.getData();
+        this.getUserChildgoldCoin()
     },
     computed: {
     },
@@ -116,6 +118,14 @@ export default {
             userAttention(data).then(res => {
                 this.tableData = res.data.records
                 this.pageTotal = res.data.total
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+        getUserChildgoldCoin () {
+            let that = this
+            userChildgoldCoin().then(res => {
+                this.goldCoin = res.data
             }).catch(err => {
                 console.log(err);
             })

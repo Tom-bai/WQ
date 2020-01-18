@@ -36,6 +36,13 @@
                                 v-model="form.officialAccount"
                                 clearable>
                             </el-input>
+                            <div class="title">添加域名(如：baidu.com)</div>
+                            <el-input
+                                size="null"
+                                placeholder="自动添加的公众号，输入唯一公众账号"
+                                v-model="form.url"
+                                clearable>
+                            </el-input>
                             <div class="title">版权设置</div>
                             <el-input
                                 size="null"
@@ -67,7 +74,8 @@ export default {
                 officialAccount: '',
                 imagePath: '',
                 copyrightInfo: '',
-                groupContent: ''
+                groupContent: '',
+                url: ''
             }
         };
     },
@@ -82,11 +90,14 @@ export default {
         getData () {
             let that = this
             userInformationInfo().then(res => {
-                that.form.wxAccount = res.data.wxAccount
-                that.form.officialAccount = res.data.officialAccount
-                that.form.copyrightInfo = res.data.copyrightInfo
-                that.form.groupContent = res.data.groupContent
-                that.form.imagePath = res.data.qrImage
+                if (res.data !== null) {
+                    that.form.wxAccount = res.data.wxAccount
+                    that.form.officialAccount = res.data.officialAccount
+                    that.form.copyrightInfo = res.data.copyrightInfo
+                    that.form.groupContent = res.data.groupContent
+                    that.form.imagePath = res.data.qrImage
+                    that.form.url = res.data.domainName
+                }
             }).catch(err => {
                 that.$message.error(err)
             })
@@ -98,7 +109,8 @@ export default {
                 officialAccount: that.form.officialAccount,
                 groupContent: that.form.groupContent,
                 imagePath: '',
-                copyrightInfo: that.form.copyrightInfo
+                copyrightInfo: that.form.copyrightInfo,
+                domainName: that.form.url
             }
             userInformationEdit(data).then(res => {
                 if (res.code === 0) {

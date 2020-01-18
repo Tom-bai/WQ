@@ -33,9 +33,9 @@
                                     <el-form-item label="增加金币">
                                         <el-input v-model="form.goldCoin"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="添加域名">
+                                    <!-- <el-form-item label="添加域名">
                                         <el-input v-model="form.url"></el-input>
-                                    </el-form-item>
+                                    </el-form-item> -->
                                 </div>
                                 <el-form-item>
                                     <el-button type="primary" @click="onSubmit">提交保存</el-button>
@@ -85,7 +85,7 @@ export default {
                         passwd: that.form.password,
                         type: that.form.type,
                         days: that.form.type == 0?that.form.days:0,
-                        domainName: that.form.type == 0?that.form.url:'',
+                        // domainName: that.form.type == 0?that.form.url:'',
                         goldCoin: that.form.type == 0?that.form.goldCoin:0
                     }
                     adminAdd(data).then(res => {

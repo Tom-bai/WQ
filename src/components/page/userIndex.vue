@@ -100,7 +100,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column prop="days" label="剩余天数"></el-table-column>
-                        <!-- <el-table-column prop="tola" label="总检测量"></el-table-column> -->
+                        <el-table-column prop="goldCoin" label="剩余金币"></el-table-column>
                         <el-table-column prop="endTime" width="200" label="有效期"></el-table-column>
                         <el-table-column label="状态" align="center">
                             <template slot-scope="scope">

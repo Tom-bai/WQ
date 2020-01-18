@@ -3,12 +3,11 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 export default new Router({
-    mode: 'history',
     routes: [
         {
             path: '/',
-            redirect: '/404',
-            meta: { title: '404' }
+            redirect: '/main',
+            meta: { title: '系统首页' }
         },
         {
             path: '/',
@@ -119,6 +118,11 @@ export default new Router({
             path: '/login',
             component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
             meta: { title: '登录' }
+        },
+        {
+            path: '/main',
+            component: () => import(/* webpackChunkName: "login" */ '../components/page/main.vue'),
+            meta: { title: '系统首页' }
         },
         {
             path: '*',

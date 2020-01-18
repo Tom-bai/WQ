@@ -104,6 +104,9 @@ export default {
                     userAttentionAdd(data).then(res => {
                         if (res.code === 0) {
                             that.$message.success(res.data)
+                            setTimeout(() => {
+                                this.$router.go(-1)
+                            }, 500);
                         } else {
                             that.$message.error(res.message)
                         }

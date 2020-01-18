@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Vue from 'vue';
+import router from '../router'
 const service = axios.create({
     timeout: 30000
 });
@@ -18,7 +19,9 @@ service.interceptors.response.use(
     response => {
         if (response.status === 200) {
             if (response.data.code === 1004) {
-                window.location.href = '/Login'
+                router.replace({
+                    path: '/login'
+                })
             } else {
                 return response.data;
             }

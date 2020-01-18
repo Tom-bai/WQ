@@ -4,14 +4,14 @@
             <div class="ms-title">微清系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
-                    <el-input v-model="param.username" placeholder="username">
+                    <el-input v-model="param.username" placeholder="请输入帐号">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
                     <el-input
                         type="password"
-                        placeholder="password"
+                        placeholder="请输入密码"
                         v-model="param.password"
                         @keyup.enter.native="submitForm()"
                     >
@@ -32,8 +32,8 @@ export default {
     data: function() {
         return {
             param: {
-                username: 'admin',
-                password: '123456',
+                username: '',
+                password: '',
             },
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -56,6 +56,7 @@ export default {
                             that.$message.error(res.message)
                         } else {
                             localStorage.setItem('token', res.data.token)
+                            localStorage.setItem('parentId', res.data.parentId)
                             info().then(res => {
                                 that.$message.success('登录成功')
                                 if ( res.data.parentId === 0) {  

@@ -43,9 +43,9 @@
                                     <el-form-item label="增加金币">
                                         <el-input v-model="form.goldCoinX"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="添加域名" >
+                                    <!-- <el-form-item label="添加域名" >
                                         <el-input v-model="form.url"></el-input>
-                                    </el-form-item>
+                                    </el-form-item> -->
                                 </div>
                                 <el-form-item>
                                     <el-button type="primary" @click="onSubmit">提交保存</el-button>
@@ -110,7 +110,7 @@ export default {
                     password: res.data.passwd,
                     type: `${res.data.type}`,
                     days: res.data.days,
-                    url: res.data.domainName,
+                    // url: res.data.domainName,
                     goldCoin: res.data.goldCoin
                 }
             }).catch(err => {
@@ -128,7 +128,7 @@ export default {
                         passwd: that.form.password,
                         days: that.form.daysX,
                         type: that.form.type,
-                        domainName: that.form.url,
+                        // domainName: that.form.url,
                         goldCoin: that.form.goldCoinX
                     }
                     adminAccounEdit(data).then(res => {

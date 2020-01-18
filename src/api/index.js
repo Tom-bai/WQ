@@ -64,6 +64,17 @@ export const userChildcount = query => {
     });
 };
 
+export const userChildgoldCoin = query => {
+    return request({
+        url: `${baseUrl}/account/goldCoin`,
+        method: 'get',
+        params: query,
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
 export const adminAdd = data => {
     return request({
         url: `${baseUrl}/account`,
@@ -95,6 +106,7 @@ export const adminAccounEdit = putData => {
         },
     });
 };
+
 
 export const adminPasswordEdit = putData => {
     return request({
