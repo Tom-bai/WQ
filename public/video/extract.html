@@ -83,15 +83,16 @@
 		var host = 'http://47.113.92.239:8080'
 		$.ajax({
 			method: "GET",
-			url: `${host}/front/info/${myQuery}`,
+			url: `/api/front/info/${myQuery}`,
 		}).done(function( res ) {
 			$('#copyrightInfo').text(res.data.copyrightInfo)
 		});
 		function zhidao(){
-	  	$("#touming").hide();
+	  		$("#touming").hide();
 			$("#showMess").hide();
 			document.getElementById("tbk").style.background="none";
 			document.getElementById("tb").src="";//这里输入提码的地址
+			getQR();
 	  	}
 		function f(){
 			$("#touming").show();
@@ -101,12 +102,11 @@
 			document.getElementById("tbk").style.background="none";
 			$.ajax({
 				method: "GET",
-				url: `${host}/front/QR/${myQuery}`,
+				url: `/api/front/QR/${myQuery}`,
 			}).done(function( res ) {
 				$('tb').text(res.data)
 			});
 		}
-		getQR()
 		window.onload=function(){
 	       var send=document.getElementById('send');
 	       times = 120;
@@ -118,7 +118,6 @@
 	           timer=setInterval(function(){
 		           times--;
 		           if(times<=0){
-					getQR();
 		               send.value="获取二维码";
 		               clearInterval(timer);
 		               times=90;

@@ -174,7 +174,7 @@ export const adminAdvertisingPut = putData => {
 
 export const adminAdvertisingRulesPut = putData => {
     return request({
-        url: `${baseUrl}/advertising`,
+        url: `${baseUrl}/advertising/rules`,
         method: 'put',
         data: putData,
         headers: {

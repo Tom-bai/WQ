@@ -27,7 +27,7 @@
                                 <el-dialog :visible.sync="dialogVisibleAD">
                                     <img width="100%" :src="dialogImageUrlAD" alt="">
                                 </el-dialog>
-                                <div class="title">标题（如：韶关🌟  一小孩刮了黑社会的车，黑社会打了小孩一巴掌，没想到因此摊上了大事！）</div>
+                                <div class="title">标题（如：如果需要地区请添加（#{city}）一小孩刮了黑社会的车，黑社会打了小孩一巴掌，没想到因此摊上了大事！）</div>
                                 <el-form-item prop="title" class="item">
                                     <el-input
                                         size="null"

@@ -13,6 +13,7 @@
                                     <el-radio-group v-model="form.type" @change="onWx">
                                         <el-radio label="0">加微信好友</el-radio>
                                         <el-radio label="1">加公众号</el-radio>
+                                        <el-radio label="2">加群</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
                                 <el-form-item :label="tipWx" prop="wxAcc">
