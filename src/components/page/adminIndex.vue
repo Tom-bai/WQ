@@ -19,7 +19,7 @@
                             <div class="grid-content grid-con-2">
                                 <i class="el-icon-view grid-con-icon"></i>
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">5000</div>
+                                    <div class="grid-num">0</div>
                                     <div>总检测量</div>
                                 </div>
                             </div>

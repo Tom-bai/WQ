@@ -8,7 +8,7 @@
                         <div class="grid-content grid-con-3">
                             <i class="el-icon-link grid-con-icon"></i>
                             <div class="grid-cont-right">
-                                <div class="grid-num">http://wx.dmap.xin/app/rwm.htm&user=18315&type=1</div>
+                                <div class="grid-num">{{childcount.userQrUrl}}</div>
                                 <div>取码地址</div>
                             </div>
                         </div>

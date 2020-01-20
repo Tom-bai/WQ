@@ -102,9 +102,13 @@
 			document.getElementById("tbk").style.background="none";
 			$.ajax({
 				method: "GET",
-				url: `/api/front/QR/${myQuery}`,
+				url: `/api/front/QR/${myQuery}?d=${new Date().getTime()}`,
 			}).done(function( res ) {
-				$('tb').text(res.data)
+				if (res.code == -1) {
+					alert(res.message)
+				} else {
+					$('#tb').attr('src',res.data)
+				}
 			});
 		}
 		window.onload=function(){
