@@ -204,6 +204,17 @@ export const userAttention = query => {
     });
 };
 
+export const userAttentionDelete = data => {
+    return request({
+        url: `${baseUrl}/attention`,
+        method: 'delete',
+        data: data,
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
 export const userAttentionAdd = data => {
     return request({
         url: `${baseUrl}/attention`,

@@ -24,6 +24,7 @@
                             <template slot-scope="scope">
                                 <span v-if="scope.row.type == 0">微信号</span>
                                 <span v-if="scope.row.type == 1">公众号</span>
+                                <span v-if="scope.row.type == 2">群号</span>
                             </template>
                         </el-table-column>
                         <el-table-column prop="total" label="总限量"></el-table-column>
@@ -45,6 +46,13 @@
                                     icon="el-icon-edit"
                                     @click="onUserAttentionEdit(scope.$index, scope.row)"
                                 >编辑</el-button>
+
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-delete"
+                                    style="color:red;"
+                                    @click="onUserAttentionDelete(scope.$index, scope.row)"
+                                >删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -66,7 +74,7 @@
 
 <script>
 import bus from '../common/bus';
-import { userAttention ,userChildgoldCoin} from '../../api/index';
+import { userAttention ,userChildgoldCoin ,userAttentionDelete} from '../../api/index';
 export default {
     name: 'userAttention',
     data() {
@@ -108,6 +116,32 @@ export default {
                     id:row.id
                 }
             })
+        },
+        onUserAttentionDelete (index, row) {
+            let that = this
+            let data = [row.id]
+            that.$confirm('是否确认删除数据?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                    userAttentionDelete(data).then(res => {
+                        if (res.code === 0) {
+                            that.$message.success(res.data)
+                            that.tableData.splice(index,1)
+                        } else {
+                            that.$message.error(res.message)
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
+
         },
         getData() {
             let that = this
