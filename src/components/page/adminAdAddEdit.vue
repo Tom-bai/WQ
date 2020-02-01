@@ -203,7 +203,7 @@ export default {
             fileListAD3: [],
             dialogImageUrlAD3: '',
             dialogVisibleAD3: false,
-            imgUrl: 'http://192.168.1.146:8080/file/download?filePath='
+            imgUrl: `/api/file/download?filePath=`
         };
     },
     created () {

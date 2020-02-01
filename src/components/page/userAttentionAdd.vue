@@ -11,13 +11,13 @@
                             <el-form ref="form" :model="form" size="null" label-width="120px">
                                 <el-form-item label="类型">
                                     <el-radio-group v-model="form.type" @change="onWx">
-                                        <el-radio label="0">加微信好友</el-radio>
+                                        <el-radio label="0">加好友</el-radio>
                                         <el-radio label="1">加公众号</el-radio>
                                         <el-radio label="2">加群</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
                                 <el-form-item :label="tipWx" prop="wxAcc">
-                                    <el-input v-model="form.wxAcc" placeholder="请输入用户名"></el-input>
+                                    <el-input v-model="form.wxAcc" placeholder="请输入号码"></el-input>
                                 </el-form-item>
                                 <el-form-item label="性别">
                                     <el-radio-group v-model="form.gender" @change="onSix">
@@ -82,7 +82,7 @@ export default {
             } else if (val == 1) {
                 this.tipWx = '公众号'
             } else if (val == 2) {
-                this.tipWx = '群号'
+                this.tipWx = '微信号'
             }
             this.form.type = val
         },
