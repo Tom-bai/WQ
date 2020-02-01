@@ -95,6 +95,11 @@ export default {
                     icon: 'icon-t6',
                     index: 'adminRevise',
                     title: '修改密码'
+                },
+                {
+                    icon: 'icon-t8',
+                    index: 'adminKouNum',
+                    title: '扣量设置'
                 }
             ]
         };

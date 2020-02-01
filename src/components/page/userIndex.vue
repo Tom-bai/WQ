@@ -3,7 +3,7 @@
         <el-row :gutter="20">
             <el-col :span="24">
                  <!-- <iframe src='../../../public/video/tutorial.html' frameborder="0" style="height: 100%;width:100%"></iframe> -->
-                <el-col :span="24" style="padding:0;margin-bottom: 20px;">
+                <!-- <el-col :span="24" style="padding:0;margin-bottom: 20px;">
                     <el-card shadow="hover" :body-style="{padding: '0px'}">
                         <div class="grid-content grid-con-3">
                             <i class="el-icon-link grid-con-icon"></i>
@@ -13,7 +13,7 @@
                             </div>
                         </div>
                     </el-card>
-                </el-col>
+                </el-col> -->
             </el-col>
             <el-col :span="24">
                 <el-row :gutter="20" class="mgb20">

@@ -13,7 +13,7 @@
                                 :src="form.imagePath"
                                 :preview-src-list="[form.imagePath]">
                             </el-image>
-                            <el-input
+                            <!-- <el-input
                                 size="null"
                                 type="textarea"
                                 class="textarea"
@@ -21,7 +21,7 @@
                                 disabled="disabled"
                                 placeholder="请输入内容"
                                 v-model="form.groupContent">
-                            </el-input>
+                            </el-input> -->
                             <div class="title">自动添加好友设置（所有下级会员的清粉用户也会关注此号）</div>
                             <el-input
                                 size="null"

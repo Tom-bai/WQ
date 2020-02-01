@@ -234,7 +234,7 @@ export default {
     position: relative;
 }
 .bgimg>img{
-    width: 375px;
+    width: 207px;
     border: solid 1px #999;
 }
 .qrcode{
@@ -242,6 +242,5 @@ export default {
   background-size: 100% 100%;
 }
 .form-box{
-    min-height: 632px;
 }
 </style>

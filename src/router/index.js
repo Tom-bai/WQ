@@ -60,6 +60,11 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "adminInformation" */ '../components/page/adminInformation.vue'),
                     meta: { title: '信息编辑', permission: true }
                 },
+                {
+                    path: '/adminKouNum',
+                    component: () => import(/* webpackChunkName: "adminKouNum" */ '../components/page/adminKouNum.vue'),
+                    meta: { title: '扣量设置', permission: true }
+                },
                 // user
                 {
                     path: '/userIndex',
