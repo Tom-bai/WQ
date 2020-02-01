@@ -277,3 +277,24 @@ export const userInformationEdit = putData => {
         },
     });
 };
+
+export const adminGetGoldRules = query => {
+    return request({
+        url: `${baseUrl}/goldRules`,
+        method: 'get',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminPutGoldRules = putData => {
+    return request({
+        url: `${baseUrl}/goldRules`,
+        method: 'put',
+        data: putData,
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};

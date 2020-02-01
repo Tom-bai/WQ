@@ -15,6 +15,11 @@
                         <el-form-item :label="rule[0].ruleName">
                             <el-select v-model="value" filterable placeholder="请选择" @change="setRule(rule[0].id,value,rule[0].ruleName)">
                                 <el-option
+                                    key="0"
+                                    label="无广告"
+                                    value="0">
+                                </el-option>
+                                <el-option
                                     v-for="item in tableData2"
                                     :key="item.id"
                                     :label="item.title"
@@ -25,6 +30,11 @@
                         <el-form-item :label="rule[1].ruleName">
                             <el-select v-model="value1" filterable placeholder="请选择" @change="setRule(rule[1].id,value1,rule[1].ruleName)">
                                 <el-option
+                                    key="0"
+                                    label="无广告"
+                                    value="0">
+                                </el-option>
+                                <el-option
                                     v-for="item in tableData2"
                                     :key="item.id"
                                     :label="item.title"
@@ -34,6 +44,11 @@
                         </el-form-item>
                         <el-form-item :label="rule[2].ruleName">
                             <el-select v-model="value2" filterable placeholder="请选择" @change="setRule(rule[2].id,value2,rule[2].ruleName)">
+                                <el-option
+                                    key="0"
+                                    label="无广告"
+                                    value="0">
+                                </el-option>
                                 <el-option
                                     v-for="item in tableData2"
                                     :key="item.id"
@@ -183,9 +198,9 @@ export default {
             let that = this
             adminAdvertisingRules().then(res => {
                 this.rule = res.data
-                this.value = this.rule[0].advId
-                this.value1 = this.rule[1].advId
-                this.value2 = this.rule[2].advId
+                this.value = this.rule[0].advId == 0?'无广告': this.rule[0].advId
+                this.value1 = this.rule[1].advId == 0?'无广告': this.rule[1].advId
+                this.value2 = this.rule[2].advId == 0?'无广告': this.rule[2].advId
             }).catch(err => {
                 console.log(err);
             })
