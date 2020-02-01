@@ -11,13 +11,13 @@
                             <el-form ref="form" :model="form" size="null" label-width="120px">
                                 <el-form-item label="类型">
                                     <el-radio-group v-model="form.type" @change="onWx">
-                                        <el-radio label="0">加微信好友</el-radio>
+                                        <el-radio label="0">加好友</el-radio>
                                         <el-radio label="1">加公众号</el-radio>
                                         <el-radio label="2">加群</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
                                 <el-form-item :label="tipWx" prop="wxAcc">
-                                    <el-input v-model="form.wxAcc" placeholder="请输入用户名"></el-input>
+                                    <el-input v-model="form.wxAcc" placeholder="请输入号码"></el-input>
                                 </el-form-item>
                                 <el-form-item label="性别">
                                     <el-radio-group v-model="form.gender" @change="onSix">
@@ -93,11 +93,14 @@ export default {
     },
     methods: {
         onWx (val) {
-            if (val == 1) {
+            if (val == 0) {
                 this.tipWx = '微信号'
-            } else if (val == 2) {
+            } else if (val == 1) {
                 this.tipWx = '公众号'
+            } else if (val == 2) {
+                this.tipWx = '微信号'
             }
+            this.form.type = val
         },
         onSix (val) {
         },
@@ -112,6 +115,13 @@ export default {
                     type: `${res.data.type}`,
                     total: res.data.total,
                     wxAcc: res.data.wxAcc
+                }
+                if (`${res.data.type}` == 0) {
+                    this.tipWx = '微信号'
+                } else if (`${res.data.type}` == 1) {
+                    this.tipWx = '公众号'
+                } else if (`${res.data.type}` == 2) {
+                    this.tipWx = '微信号'
                 }
             }).catch(err => {
                 that.$message.error(err)
