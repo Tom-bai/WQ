@@ -309,3 +309,33 @@ export const adminPutGoldRules = putData => {
         },
     });
 };
+
+export const adminGetCapacity = query => {
+    return request({
+        url: `${baseUrl}/account/capacity`,
+        method: 'get',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const userGetCapacity = query => {
+    return request({
+        url: `${baseUrl}/account/childcount`,
+        method: 'get',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminAccountDelete = id => {
+    return request({
+        url: `${baseUrl}/account/${id}`,
+        method: 'delete',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};

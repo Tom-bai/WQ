@@ -63,7 +63,14 @@
 	    <div class="rich_media_meta_list" style="margin-bottom:0;">
 	        <em id="post-date" class="rich_media_meta rich_media_meta_text" style="font-size:18px;color:#8C8C8C;"></em>
 	        <a class="rich_media_meta rich_media_meta_link rich_media_meta_nickname" style="color:#607FA6;font-size:16px;" id="post-user" href="" rel='noreferrer'></a>
-	    </div>
+			</div>
+			<!-- 广告 -->
+			<div style="position: relative;">
+				<a href="javascript:void(0)" onclick="openWay()" id="advertisingOne" style="display: block;">
+						<img border="0" style="width: 100%;border:solid 1px #E7E7EB;"/>
+						<span style="position: absolute;bottom: 5px;right: 5px;	color: #fff;font-size: 12px;">广告</span>
+				</a>
+		</div>
 	    <!-- 视频 -->
 	    <div class="rich_media_content" style="margin-top:10px;" id="js_content"></div>
 	    <!-- 阅读原文 -->
@@ -83,7 +90,7 @@
 	        <span style="position: relative;top: 10px;background: #f3f3f3;color: #868686;font-size: 17px;padding: 0 8px">广告</span>
 	    </div>
         <div style="position: relative;margin: 0 15px;">
-            <a href="javascript:void(0)" onclick="openWay()" id="advertising">
+            <a href="javascript:void(0)" onclick="openWay()" id="advertising" style="display: block;">
                 <img border="0" style="width: 100%;border:solid 1px #E7E7EB;"/>
             </a>
         </div>
@@ -143,8 +150,18 @@
 				$("#activity-name").text(videoData.title)
 				$("#post-user").attr("href",videoData.officialAccountUrl)
 				$("#post-user").text(videoData.officialAccountName)
-				$("#advertising>img").attr("src", '/api/file/download?filePath=' + videoData.advImage)
-				$("#guanzhuImg").attr("src", '/api/file/download?filePath=' + videoData.advPath)
+				if (videoData.advImage !== '') {
+					$("#advertising>img").attr("src", '/api/file/download?filePath=' + videoData.advImage)
+				}
+				if (videoData.advPath !== '') {
+					$("#guanzhuImg").attr("src", '/api/file/download?filePath=' + videoData.advPath)
+				}
+				if (videoData.image2Url !== '') {
+					$("#advertisingOne").attr("src", '/api/file/download?filePath=' + videoData.image2Url)
+				}
+				if (videoData.image2 !== '') {
+					$("#advertisingOne>img").attr("src", '/api/file/download?filePath=' + videoData.image2)
+				}
 			}
 		});
 	    

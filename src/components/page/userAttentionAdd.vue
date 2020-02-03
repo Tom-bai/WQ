@@ -42,7 +42,7 @@
                                 </el-form-item>
                                 <el-form-item>
                                     <el-button type="primary" @click="onSubmit">提交保存</el-button>
-                                    <el-button>取消</el-button>
+                                    <el-button @click="resetForm">取消</el-button>
                                 </el-form-item>
                             </el-form>
                         </div>
@@ -54,12 +54,13 @@
 </template>
 
 <script>
-import { userAttentionAdd } from '../../api/index';
+import { userAttentionAdd,userChildgoldCoin } from '../../api/index';
 export default {
     name: 'userAttentionAdd',
     data() {
         return {
             tipWx: '微信号',
+            goldCoin: 0,
             form: {
                 wxAcc: '',
                 total: '',
@@ -75,7 +76,18 @@ export default {
             },
         };
     },
+    created() {
+        this.getUserChildgoldCoin()
+    },
     methods: {
+        getUserChildgoldCoin () {
+            let that = this
+            userChildgoldCoin().then(res => {
+                this.goldCoin = res.data
+            }).catch(err => {
+                console.log(err);
+            })
+        },
         onWx (val) {
             if (val == 0) {
                 this.tipWx = '微信号'
@@ -89,10 +101,14 @@ export default {
         onSix (val) {
             this.form.gender = val
         },
-         onSubmit() {
+        onSubmit() {
             let that = this
             that.$refs.form.validate(valid => {
                 if (valid) {
+                    if (that.form.total > that.goldCoin) {
+                        that.$message.error('金币余额不足')
+                        return false
+                    }
                     let data = {
                         dayLimit: that.form.dayLimit,
                         gender: that.form.gender,
@@ -104,9 +120,7 @@ export default {
                     userAttentionAdd(data).then(res => {
                         if (res.code === 0) {
                             that.$message.success(res.data)
-                            setTimeout(() => {
-                                this.$router.go(-1)
-                            }, 500);
+                            that.resetForm()
                         } else {
                             that.$message.error(res.message)
                         }
@@ -117,7 +131,9 @@ export default {
             })
         },
         resetForm() {
-            this.$refs.form.resetFields();
+            setTimeout(() => {
+                this.$router.go(-1)
+            }, 500);
         }
     }
 };

@@ -19,7 +19,7 @@
                             <div class="grid-content grid-con-2">
                                 <i class="el-icon-view grid-con-icon"></i>
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">0</div>
+                                    <div class="grid-num">{{allCapacity}}</div>
                                     <div>总检测量</div>
                                 </div>
                             </div>
@@ -59,16 +59,16 @@
                                 <span v-if="scope.row.type === 1">测试账号</span>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="childCount" label="子账户数"></el-table-column>
+                        <el-table-column prop="childCount" width="80" label="子账户数"></el-table-column>
                         <el-table-column prop="days" label="剩余天数"></el-table-column>
                         <el-table-column label="剩余金币">
                             <template slot-scope="scope">
                                 <span>{{scope.row.goldCoin || 0}}</span>
                             </template>
                         </el-table-column>
-                        <!-- <el-table-column prop="tola" label="总检测量"></el-table-column>
-                        <el-table-column prop="sheng" width="100" label="剩余关注量"></el-table-column> -->
-                        <el-table-column prop="endTime" width="200" label="有效期"></el-table-column>
+                        <el-table-column prop="capacity" label="检测量"></el-table-column>
+                        <!-- <el-table-column prop="sheng" width="100" label="剩余关注量"></el-table-column> -->
+                        <el-table-column prop="endTime" width="140" label="有效期"></el-table-column>
                         <el-table-column label="状态" align="center">
                             <template slot-scope="scope">
                                 <el-tag type="success" v-if="scope.row.state === 0">正常</el-tag>
@@ -76,7 +76,7 @@
                                 <el-tag type="info" v-if="scope.row.state === 2">锁定</el-tag>
                             </template>
                         </el-table-column>
-                        <el-table-column label="管理操作" width="200" align="center">
+                        <el-table-column label="管理操作" width="240" align="center">
                             <template slot-scope="scope">
                                 <el-button
                                     type="text"
@@ -89,6 +89,12 @@
                                     icon="el-icon-edit"
                                     @click="onRoutesEdit(scope.$index, scope.row)"
                                 >编辑</el-button>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-delete"
+                                    style="color:red;"
+                                    @click="onAdminDelete(scope.$index, scope.row)"
+                                >删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -110,7 +116,7 @@
 
 <script>
 import bus from '../common/bus';
-import { adminAccount,adminChildcount,adminAccountSearch } from '../../api/index';
+import { adminAccount,adminChildcount,adminAccountSearch,adminGetCapacity,adminAccountDelete } from '../../api/index';
 export default {
     name: 'adminIndex',
     data() {
@@ -129,7 +135,8 @@ export default {
             pageTotal: 0,
             form: {},
             idx: -1,
-            id: -1
+            id: -1,
+            allCapacity: 0
         };
     },
     components: {
@@ -176,6 +183,11 @@ export default {
             }).catch(err => {
                 console.log(err);
             })
+            adminGetCapacity().then(res => {
+                that.allCapacity = res.data
+            }).catch(err => {
+                console.log(err);
+            })
         },
         getChildcount () {
             adminChildcount().then(res => {
@@ -191,16 +203,30 @@ export default {
             this.getData()
         },
         // 删除操作
-        handleDelete(index, row) {
-            // 二次确认删除
-            this.$confirm('确定要删除吗？', '提示', {
+        onAdminDelete(index, row) {
+            let that = this
+            let data = [row.id]
+            that.$confirm('是否确认删除数据?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
                 type: 'warning'
-            })
-                .then(() => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
-                })
-                .catch(() => {});
+                }).then(() => {
+                    adminAccountDelete(data).then(res => {
+                        if (res.code === 0) {
+                            that.$message.success(res.data)
+                            that.tableData.splice(index,1)
+                        } else {
+                            that.$message.error(res.message)
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
         },
         // 多选操作
         handleSelectionChange(val) {

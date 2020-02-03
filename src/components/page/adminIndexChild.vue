@@ -34,6 +34,7 @@
                                 <span>{{scope.row.goldCoin || 0}}</span>
                             </template>
                         </el-table-column>
+                        <el-table-column prop="capacity" label="检测量"></el-table-column>
                         <!-- <el-table-column prop="tola" label="总检测量"></el-table-column>
                         <el-table-column prop="sheng" width="100" label="剩余关注量"></el-table-column> -->
                         <el-table-column prop="endTime" width="200" label="有效期"></el-table-column>
@@ -57,6 +58,12 @@
                                     icon="el-icon-edit"
                                     @click="onRoutesEdit(scope.$index, scope.row)"
                                 >编辑</el-button>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-delete"
+                                    style="color:red;"
+                                    @click="onAdminDelete(scope.$index, scope.row)"
+                                >删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -78,7 +85,7 @@
 
 <script>
 import bus from '../common/bus';
-import { adminAccount,adminAccountSearch } from '../../api/index';
+import { adminAccount,adminAccountSearch,adminAccountDelete} from '../../api/index';
 export default {
     name: 'adminIndex',
     data() {
@@ -142,19 +149,33 @@ export default {
         handleSearch() {
             this.query.pageIndex = 1
             this.tableData = []
-            this.getData()
+            this.getData(this.$route.query.id)
         },
         // 删除操作
-        handleDelete(index, row) {
-            // 二次确认删除
-            this.$confirm('确定要删除吗？', '提示', {
+        onAdminDelete(index, row) {
+            let that = this
+            let data = [row.id]
+            that.$confirm('是否确认删除数据?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
                 type: 'warning'
-            })
-                .then(() => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
-                })
-                .catch(() => {});
+                }).then(() => {
+                    adminAccountDelete(data).then(res => {
+                        if (res.code === 0) {
+                            that.$message.success(res.data)
+                            that.tableData.splice(index,1)
+                        } else {
+                            that.$message.error(res.message)
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
         },
         // 多选操作
         handleSelectionChange(val) {

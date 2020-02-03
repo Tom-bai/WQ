@@ -17,7 +17,7 @@
             </el-col>
             <el-col :span="24">
                 <el-row :gutter="20" class="mgb20">
-                    <el-col :span="8">
+                    <el-col :span="6">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-1">
                                 <i class="el-icon-lx-people grid-con-icon"></i>
@@ -28,18 +28,7 @@
                             </div>
                         </el-card>
                     </el-col>
-                    <!-- <el-col :span="6">
-                        <el-card shadow="hover" :body-style="{padding: '0px'}">
-                            <div class="grid-content grid-con-2">
-                                <i class="el-icon-full-screen grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">5000</div>
-                                    <div>已扫人次</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col> -->
-                    <el-col :span="8">
+                    <el-col :span="6">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-4">
                                 <i class="el-icon-coin grid-con-icon"></i>
@@ -50,7 +39,18 @@
                             </div>
                         </el-card>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
+                        <el-card shadow="hover" :body-style="{padding: '0px'}">
+                            <div class="grid-content grid-con-2">
+                                <i class="el-icon-full-screen grid-con-icon"></i>
+                                <div class="grid-cont-right">
+                                    <div class="grid-num">{{allCapacity}}</div>
+                                    <div>总检测量</div>
+                                </div>
+                            </div>
+                        </el-card>
+                    </el-col>
+                    <el-col :span="6">
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-3">
                                 <i class="el-icon-time grid-con-icon"></i>
@@ -101,6 +101,7 @@
                         </el-table-column>
                         <el-table-column prop="days" label="剩余天数"></el-table-column>
                         <el-table-column prop="goldCoin" label="剩余金币"></el-table-column>
+                        <el-table-column prop="capacity" label="检测量"></el-table-column>
                         <el-table-column prop="endTime" width="200" label="有效期"></el-table-column>
                         <el-table-column label="状态" align="center">
                             <template slot-scope="scope">
@@ -137,7 +138,7 @@
 
 <script>
 import bus from '../common/bus';
-import { adminAccount,adminChildcount,adminAccountSearch,userChildcount } from '../../api/index';
+import { adminAccount,adminChildcount,adminAccountSearch,userChildcount,adminGetCapacity } from '../../api/index';
 export default {
     name: 'adminIndex',
     data() {
@@ -156,7 +157,8 @@ export default {
             pageTotal: 0,
             form: {},
             idx: -1,
-            id: -1
+            id: -1,
+            allCapacity: 0
         };
     },
     components: {
@@ -191,6 +193,11 @@ export default {
             adminAccount(data).then(res => {
                 this.tableData = res.data.records
                 this.pageTotal = res.data.total
+            }).catch(err => {
+                console.log(err);
+            })
+            adminGetCapacity().then(res => {
+                that.allCapacity = res.data
             }).catch(err => {
                 console.log(err);
             })

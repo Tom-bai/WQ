@@ -31,6 +31,7 @@
                         <el-table-column prop="allTotal" label="当前总量"></el-table-column>
                         <el-table-column prop="dayLimit" label="日限量"></el-table-column>
                         <el-table-column prop="dayTotal" label="当前日总量"></el-table-column>
+                        <!-- <el-table-column prop="dayLimit" label="已添加数量"></el-table-column> -->
                         <el-table-column label="对象" align="center">
                             <template slot-scope="scope">
                                 <span v-if="scope.row.gender == 0">不限</span>
@@ -107,7 +108,11 @@ export default {
     },
     methods: {
         userAttentionAdd () {
-            this.$router.push('/userAttentionAdd')
+            if (this.goldCoin <= 0) {
+                this.$message.error('金币不够，请充值！')
+            } else {
+                this.$router.push('/userAttentionAdd')
+            }
         },
         onUserAttentionEdit(index, row) {
             this.$router.push({

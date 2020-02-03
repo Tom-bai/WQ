@@ -20,6 +20,7 @@
                                     :on-preview="handlePreviewAD"
                                     :on-success="handSuccessAD"
                                     :file-list="fileListAD"
+                                    :on-remove="handleRemoveAD"
                                     ref="upload"
                                     list-type="picture-card">
                                     <i class="el-icon-plus"></i>
@@ -77,7 +78,62 @@
                                         </el-input>
                                     </el-form-item>
                                 </div>
-                                <div class="title">广告图片</div>
+                                <!-- 广告1 -->
+                                <div class="title">顶部广告图片</div>
+                                <el-upload
+                                    class="upload-demo"
+                                    :action="action"
+                                    :headers="headers"
+                                    :data="upData"
+                                    :limit='1'
+                                    :on-exceed="handleExceedADT"
+                                    :on-preview="handlePreviewADT"
+                                    :on-success="handSuccessADT"
+                                    :file-list="fileListADT"
+                                    :on-remove="handleRemoveADT"
+                                    list-type="picture-card">
+                                    <i class="el-icon-plus"></i>
+                                </el-upload>
+                                <el-dialog :visible.sync="dialogVisibleADT">
+                                    <img width="100%" :src="dialogImageUrlADT" alt="">
+                                </el-dialog>
+                                <div class="title">广告类型</div>
+                                <el-radio-group v-model="form.advType">
+                                    <el-radio label="0">跳转链接</el-radio>
+                                    <!-- <el-radio label="1">显示二维码</el-radio> -->
+                                </el-radio-group>
+                                <div class="top-flex" style="margin-top: 20px;">
+                                    <!-- <div v-if="form.advType == 1">
+                                        <el-upload
+                                            class="upload-demo"
+                                            :action="action"
+                                            :headers="headers"
+                                            :data="upData"
+                                            :limit='1'
+                                            :on-exceed="handleExceedAD3"
+                                            :on-preview="handlePreviewAD3"
+                                            :on-success="handSuccessAD3"
+                                            :file-list="fileListAD3"
+                                            list-type="picture-card">
+                                            <i class="el-icon-plus"></i>
+                                        </el-upload>
+                                        <el-dialog :visible.sync="dialogVisibleAD3">
+                                            <img width="100%" :src="dialogImageUrlAD3" alt="">
+                                        </el-dialog>
+                                    </div> -->
+                                    <div v-if="form.advType == 0">
+                                        <el-form-item  class="item">
+                                            <el-input
+                                                size="null"
+                                                placeholder="请添加url地址"
+                                                v-model="form.image2Url"
+                                                clearable>
+                                            </el-input>
+                                        </el-form-item>
+                                    </div>
+                                </div>
+                                <!-- 广告2 -->
+                                <div class="title">底部广告图片</div>
                                 <el-upload
                                     class="upload-demo"
                                     :action="action"
@@ -88,6 +144,7 @@
                                     :on-preview="handlePreviewAD2"
                                     :on-success="handSuccessAD2"
                                     :file-list="fileListAD2"
+                                    :on-remove="handleRemoveAD2"
                                     list-type="picture-card">
                                     <i class="el-icon-plus"></i>
                                 </el-upload>
@@ -111,6 +168,7 @@
                                             :on-preview="handlePreviewAD3"
                                             :on-success="handSuccessAD3"
                                             :file-list="fileListAD3"
+                                            :on-remove="handleRemoveAD3"
                                             list-type="picture-card">
                                             <i class="el-icon-plus"></i>
                                         </el-upload>
@@ -187,7 +245,9 @@ export default {
                 advType: '0',
                 advPath: '',
                 endTime: '',
-                videoId: ''
+                videoId: '',
+                image2: '',
+                image2Url: ''
             },
             rules: {
                 title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
@@ -204,6 +264,9 @@ export default {
             fileListAD3: [],
             dialogImageUrlAD3: '',
             dialogVisibleAD3: false,
+            fileListADT: [],
+            dialogImageUrlADT: '',
+            dialogVisibleADT: false,
         };
     },
     methods: {
@@ -217,6 +280,9 @@ export default {
         handSuccessAD(file) {
             this.form.titleImage = file.data.path
         },
+        handleRemoveAD(file, fileList) {
+            this.form.titleImage = ''
+        },
         handleExceedAD2(files, fileList) {
             this.$message.warning(`当前限制选择 1 个文件，请删除原文件再上传`);
         },
@@ -227,6 +293,9 @@ export default {
         handSuccessAD2(file) {
             this.form.advImage = file.data.path
         },
+        handleRemoveAD2(file, fileList) {
+            this.form.advImage = ''
+        },
         handleExceedAD3(files, fileList) {
             this.$message.warning(`当前限制选择 1 个文件，请删除原文件再上传`);
         },
@@ -236,6 +305,22 @@ export default {
         },
         handSuccessAD3(file) {
             this.form.advPath = file.data.path
+        },
+        handleRemoveAD3(file, fileList) {
+            this.form.advPath = ''
+        },
+        handleExceedADT(files, fileList) {
+            this.$message.warning(`当前限制选择 1 个文件，请删除原文件再上传`);
+        },
+        handlePreviewADT(file) {
+            this.dialogImageUrlADT = file.url;
+            this.dialogVisibleADT = true;
+        },
+        handSuccessADT(file) {
+            this.form.image2 = file.data.path
+        },
+        handleRemoveADT(file, fileList) {
+            this.form.image2 = ''
         },
         onSubmit () {
             let that = this
@@ -252,7 +337,9 @@ export default {
                         advType: that.form.advType,
                         advPath: that.form.advPath,
                         endTime: that.form.endTime,
-                        videoId: that.form.videoId
+                        videoId: that.form.videoId,
+                        image2: that.form.image2,
+                        image2Url: that.form.image2Url
                     }
                     adminAdvertisingPost(data).then(res => {
                         if (res.code === 0) {
