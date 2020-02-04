@@ -210,7 +210,7 @@
                                 </div>
                                 <div class="btn">
                                     <el-button type="primary" size="null" @click="onSubmit">提交保存</el-button>
-                                    <el-button size="null">取消</el-button>
+                                    <el-button size="null" @click="resetForm">取消</el-button>
                                 </div>
                             </el-form>
                         </div>
@@ -248,7 +248,8 @@ export default {
                 endTime: '',
                 videoId: '',
                 image2: '',
-                image2Url: ''
+                image2Url: '',
+                type: ''
             },
             rules: {
                 title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
@@ -344,7 +345,8 @@ export default {
                     endTime: res.data.endTime,
                     videoId: res.data.videoId,
                     image2: res.data.image2,
-                    image2Url: res.data.image2Url
+                    image2Url: res.data.image2Url,
+                    type: res.data.type
                 }
                 if (res.data.titleImage !== '') {
                     that.fileListAD.push({
@@ -388,7 +390,8 @@ export default {
                         endTime: that.form.endTime,
                         videoId: that.form.videoId,
                         image2: that.form.image2,
-                        image2Url: that.form.image2Url
+                        image2Url: that.form.image2Url,
+                        type: that.form.type
                     }
                     adminAdvertisingPut(data).then(res => {
                         if (res.code === 0) {

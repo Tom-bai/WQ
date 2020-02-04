@@ -210,7 +210,7 @@
                                 </div>
                                 <div class="btn">
                                     <el-button type="primary" size="null" @click="onSubmit">提交保存</el-button>
-                                    <el-button size="null">取消</el-button>
+                                    <el-button size="null" @click="resetForm">取消</el-button>
                                 </div>
                             </el-form>
                         </div>
@@ -339,7 +339,8 @@ export default {
                         endTime: that.form.endTime,
                         videoId: that.form.videoId,
                         image2: that.form.image2,
-                        image2Url: that.form.image2Url
+                        image2Url: that.form.image2Url,
+                        type: 0
                     }
                     adminAdvertisingPost(data).then(res => {
                         if (res.code === 0) {

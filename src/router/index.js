@@ -51,8 +51,18 @@ export default new Router({
                     meta: { title: '添加广告', permission: true }
                 },
                 {
+                    path: '/adminAdAddTwo',
+                    component: () => import(/* webpackChunkName: "adminAdAddTwo" */ '../components/page/adminAdAddTwo.vue'),
+                    meta: { title: '添加广告', permission: true }
+                },
+                {
                     path: '/adminAdAddEdit',
                     component: () => import(/* webpackChunkName: "adminAdAddEdit" */ '../components/page/adminAdAddEdit.vue'),
+                    meta: { title: '编辑广告', permission: true }
+                },
+                {
+                    path: '/adminAdAddEditTwo',
+                    component: () => import(/* webpackChunkName: "adminAdAddEditTwo" */ '../components/page/adminAdAddEditTwo.vue'),
                     meta: { title: '编辑广告', permission: true }
                 },
                 {

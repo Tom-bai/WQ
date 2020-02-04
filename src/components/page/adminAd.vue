@@ -5,12 +5,16 @@
                 <el-card shadow="hover">
                     <div slot="header" class="top-flex">
                         <span>广告列表</span>
-                        <el-button type="primary" icon="el-icon-circle-plus-outline" plain @click="onRoutesAdd">新增广告</el-button>
+                        <el-button type="primary" icon="el-icon-circle-plus-outline" plain @click="dialog = true">新增广告</el-button>
                     </div>
                     <!-- <div class="handle-box">
                         <el-input v-model="query.name" size="null" placeholder="用户名" class="handle-input mr10"></el-input>
                         <el-button type="primary"  size="null" icon="el-icon-search" @click="handleSearch">搜索</el-button>
                     </div> -->
+                    <el-dialog title="广告类型" :visible.sync="dialog">
+                        <el-button @click="onRoutesAddTwo">普通广告</el-button>
+                        <el-button @click="onRoutesAdd">视频广告</el-button>
+                    </el-dialog>
                     <el-form :model="form" size="null" label-width="60px" class="addForm" v-if="rule.length > 0">
                         <el-form-item :label="rule[0].ruleName">
                             <el-select v-model="value" filterable placeholder="请选择" @change="setRule(rule[0].id,value,rule[0].ruleName)">
@@ -75,6 +79,12 @@
                     >
                         <!-- <el-table-column type="selection" width="55" align="center">@selection-change="handleSelectionChange"</el-table-column> -->
                         <el-table-column prop="id" label="编号" width="55" align="center"></el-table-column>
+                        <el-table-column label="广告类型">
+                            <template slot-scope="scope">
+                                <div v-if="scope.row.type == 0">视频广告</div>
+                                <div v-if="scope.row.type == 1">普通广告</div>
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="title" label="文章标题"></el-table-column>
                         <el-table-column prop="officialAccountName" label="关注公众号" align="center"></el-table-column>
                         <el-table-column prop="officialAccountUrl" label="公众号链接"></el-table-column>
@@ -120,6 +130,7 @@ export default {
     name: 'adminAd',
     data() {
         return {
+            dialog: false,
             value: '',
             value1: '',
             value2: '',
@@ -156,6 +167,9 @@ export default {
         onRoutesAdd() {
             this.$router.push('/adminAdAdd')
         },
+        onRoutesAddTwo () {
+            this.$router.push('/adminAdAddTwo')
+        },
         onRoutes(index, row) {
             this.$router.push({
                 path:'/adminIndexChild',
@@ -166,12 +180,23 @@ export default {
             })
         },
         onRoutesEdit(index, row) {
-            this.$router.push({
-                path:'/adminAdAddEdit',
-                query:{
-                    id:row.id
-                }
-            })
+            console.log(row);
+            
+            if (row.type == 0) {
+                this.$router.push({
+                    path:'/adminAdAddEdit',
+                    query:{
+                        id:row.id
+                    }
+                })
+            } else {
+                this.$router.push({
+                    path:'/adminAdAddEditTwo',
+                    query:{
+                        id:row.id
+                    }
+                })
+            }
         },
         getData() {
             let that = this

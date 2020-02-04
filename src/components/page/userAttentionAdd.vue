@@ -17,7 +17,7 @@
                                     </el-radio-group>
                                 </el-form-item>
                                 <el-form-item :label="tipWx" prop="wxAcc">
-                                    <el-input v-model="form.wxAcc" placeholder="请输入号码"></el-input>
+                                    <el-input v-model="form.wxAcc" :placeholder="tipP"></el-input>
                                 </el-form-item>
                                 <el-form-item label="性别">
                                     <el-radio-group v-model="form.gender" @change="onSix">
@@ -60,6 +60,7 @@ export default {
     data() {
         return {
             tipWx: '微信号',
+            tipP: '微信号码',
             goldCoin: 0,
             form: {
                 wxAcc: '',
@@ -91,10 +92,13 @@ export default {
         onWx (val) {
             if (val == 0) {
                 this.tipWx = '微信号'
+                this.tipP = '微信号码'
             } else if (val == 1) {
                 this.tipWx = '公众号'
+                this.tipP = '微信公众号码'
             } else if (val == 2) {
-                this.tipWx = '微信号'
+                this.tipWx = '微信ID|微信账号'
+                this.tipP = '微信ID|微信账号'
             }
             this.form.type = val
         },
