@@ -8,51 +8,63 @@
                     </div>
                     <div class="container">
                         <div class="form-box">
-                            <el-image
-                                style="width: 200px;"
-                                :src="form.imagePath"
-                                :preview-src-list="[form.imagePath]">
-                            </el-image>
-                            <!-- <el-input
-                                size="null"
-                                type="textarea"
-                                class="textarea"
-                                :rows="6"
-                                disabled="disabled"
-                                placeholder="请输入内容"
-                                v-model="form.groupContent">
-                            </el-input> -->
-                            <div class="title">自动添加好友设置（所有下级会员的清粉用户也会关注此号）</div>
-                            <el-input
-                                size="null"
-                                placeholder="自动添加的好友，请输入唯一微信账号"
-                                v-model="form.wxAccount"
-                                clearable>
-                            </el-input>
-                            <div class="title">自动添加公众号设置（所有下级会员的清粉用户也会关注此号</div>
-                            <el-input
-                                size="null"
-                                placeholder="自动添加的公众号，输入唯一公众账号"
-                                v-model="form.officialAccount"
-                                clearable>
-                            </el-input>
-                            <div class="title">添加域名(如：baidu.com)</div>
-                            <el-input
-                                size="null"
-                                placeholder="自动添加的公众号，输入唯一公众账号"
-                                v-model="form.url"
-                                clearable>
-                            </el-input>
-                            <div class="title">版权设置</div>
-                            <el-input
-                                size="null"
-                                placeholder="如果你也想定制这样的链接，请联系微信: 18578640282"
-                                v-model="form.copyrightInfo"
-                                clearable>
-                            </el-input>
-                            <div class="btn">
-                                <el-button type="primary" size="null" @click="onSubmit">提交保存</el-button>
-                            </div>
+                            <el-form ref="form" :model="form" size="null" label-width="100px">
+                                <div class="title">专属二维码</div>
+                                <el-image
+                                    style="width: 200px;"
+                                    :src="form.imagePath"
+                                    :preview-src-list="[form.imagePath]">
+                                </el-image>
+                                <!-- <el-input
+                                    size="null"
+                                    type="textarea"
+                                    class="textarea"
+                                    :rows="6"
+                                    disabled="disabled"
+                                    placeholder="请输入内容"
+                                    v-model="form.groupContent">
+                                </el-input> -->
+                                <div class="title">自动添加好友设置（所有下级会员的清粉用户也会关注此号）</div>
+                                <el-input
+                                    size="null"
+                                    placeholder="自动添加的好友，请输入唯一微信账号"
+                                    v-model="form.wxAccount"
+                                    clearable>
+                                </el-input>
+                                <div class="title">自动添加公众号设置（所有下级会员的清粉用户也会关注此号</div>
+                                <el-input
+                                    size="null"
+                                    placeholder="自动添加的公众号，输入唯一公众账号"
+                                    v-model="form.officialAccount"
+                                    clearable>
+                                </el-input>
+                                <div class="title">专属原文阅读链接</div>
+                                <div class="copy">
+                                    <el-input
+                                        size="null"
+                                        placeholder="专属原文阅读链接"
+                                        v-model="form.url"
+                                        disabled="disabled"
+                                        class="ss"
+                                        clearable>
+                                    </el-input>
+                                    <el-button 
+                                        class="btns" 
+                                        v-clipboard:copy="form.url" 
+                                        v-clipboard:success="onCopy" 
+                                    >复制</el-button>
+                                </div>
+                                <div class="title">版权设置</div>
+                                <el-input
+                                    size="null"
+                                    placeholder="如果你也想定制这样的链接，请联系微信: 18578640282"
+                                    v-model="form.copyrightInfo"
+                                    clearable>
+                                </el-input>
+                                <div class="btn">
+                                    <el-button type="primary" size="null" @click="onSubmit">提交保存</el-button>
+                                </div>
+                            </el-form>
                         </div>
                     </div>
                 </el-card>
@@ -62,6 +74,7 @@
 </template>
 
 <script>
+import Clipboard from 'clipboard';
 import bus from '../common/bus';
 import { userInformationInfo,userInformationEdit } from '../../api/index';
 export default {
@@ -87,6 +100,10 @@ export default {
     computed: {
     },
     methods: {
+        onCopy() {  
+            let that = this
+            that.$message.success('复制成功')
+        },
         getData () {
             let that = this
             userInformationInfo().then(res => {
@@ -143,5 +160,13 @@ export default {
 .btn{
     text-align: center;
     margin-top: 30px;
+}
+.copy{
+    display: flex;
+    align-items: center;
+}
+.copy .btns{
+    height: 40px;
+    margin-left: 15px;
 }
 </style>

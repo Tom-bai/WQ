@@ -11,6 +11,10 @@ import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
 
+import VueClipboard from 'vue-clipboard2'
+VueClipboard.config.autoSetContainer = true
+Vue.use(VueClipboard)
+
 Vue.config.productionTip = false;
 Vue.prototype.$md5 = md5;
 Vue.use(VueI18n);

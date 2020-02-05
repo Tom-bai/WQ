@@ -350,3 +350,46 @@ export const userAdvertisingDelete = data => {
         },
     });
 };
+
+export const adminSite = query => {
+    return request({
+        url: `${baseUrl}/site`,
+        method: 'get',
+        params: query,
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminSiteQuery = query => {
+    return request({
+        url: `${baseUrl}/site/${query}`,
+        method: 'get',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminPostSite = data => {
+    return request({
+        url: `${baseUrl}/site`,
+        method: 'post',
+        data: data,
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminPutSite = putData => {
+    return request({
+        url: `${baseUrl}/site`,
+        method: 'put',
+        data: putData,
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};

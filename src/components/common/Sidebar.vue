@@ -100,6 +100,11 @@ export default {
                     icon: 'icon-t8',
                     index: 'adminKouNum',
                     title: '扣量设置'
+                },
+                {
+                    icon: 'icon-t10',
+                    index: 'adminHost',
+                    title: '站点管理'
                 }
             ]
         };
