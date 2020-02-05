@@ -339,3 +339,14 @@ export const adminAccountDelete = id => {
         },
     });
 };
+
+export const userAdvertisingDelete = data => {
+    return request({
+        url: `${baseUrl}/advertising`,
+        method: 'delete',
+        data: data,
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
