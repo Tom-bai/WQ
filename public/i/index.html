@@ -26,9 +26,6 @@
         }
         var myQuery = getQueryVariable('userid')
         console.log(myQuery);
-        if(myQuery == '8'){
-            window.location.href = `http://www.tdaoj.com`
-        }
         $.ajax({
           method: "GET",
           url: `/api/front/info/${myQuery}`,

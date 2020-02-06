@@ -393,3 +393,13 @@ export const adminPutSite = putData => {
         },
     });
 };
+
+export const adminDeleteSite = query => {
+    return request({
+        url: `${baseUrl}/site/${query}`,
+        method: 'delete',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};

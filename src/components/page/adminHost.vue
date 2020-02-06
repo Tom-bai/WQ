@@ -62,7 +62,7 @@
 
 <script>
 import bus from '../common/bus';
-import { adminSite,adminSiteQuery } from '../../api/index';
+import { adminSite,adminSiteQuery ,adminDeleteSite } from '../../api/index';
 export default {
     name: 'adminHost',
     data() {
@@ -142,7 +142,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
                 }).then(() => {
-                    adminAccountDelete(data).then(res => {
+                    adminDeleteSite(data).then(res => {
                         if (res.code === 0) {
                             that.$message.success(res.data)
                             that.tableData.splice(index,1)
@@ -153,10 +153,10 @@ export default {
                         console.log(err);
                     })
                 }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });          
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });          
             });
         },
         // 多选操作
