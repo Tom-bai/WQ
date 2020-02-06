@@ -24,20 +24,48 @@
                                     placeholder="请输入内容"
                                     v-model="form.groupContent">
                                 </el-input> -->
-                                <div class="title">自动添加好友设置（所有下级会员的清粉用户也会关注此号）</div>
+                                <div class="title">自动添加好友设置</div>
                                 <el-input
                                     size="null"
                                     placeholder="自动添加的好友，请输入唯一微信账号"
                                     v-model="form.wxAccount"
                                     clearable>
                                 </el-input>
-                                <div class="title">自动添加公众号设置（所有下级会员的清粉用户也会关注此号</div>
+                                <div class="title">自动添加公众号设置</div>
                                 <el-input
                                     size="null"
                                     placeholder="自动添加的公众号，输入唯一公众账号"
                                     v-model="form.officialAccount"
                                     clearable>
                                 </el-input>
+                                <div class="title">下级会员的清粉用户关注此微信号</div>
+                                <div class="copy">
+                                    <el-input
+                                        size="null"
+                                        placeholder="下级会员的清粉用户关注此微信号"
+                                        v-model="form.lowerWxAccount"
+                                        clearable>
+                                    </el-input>
+                                    <el-select v-model="form.lowerWxAccountRule" placeholder="请选择性别" size="null" style="margin-left: 15px;">
+                                        <el-option label="不限" value="不限"></el-option>
+                                        <el-option label="男" value="男"></el-option>
+                                        <el-option label="女" value="女"></el-option>
+                                    </el-select>
+                                </div>
+                                <div class="title">下级会员的清粉用户关注此公众号</div>
+                                <div class="copy">
+                                    <el-input
+                                        size="null"
+                                        placeholder="下级会员的清粉用户关注此公众号"
+                                        v-model="form.lowerOfficialAccount"
+                                        clearable>
+                                    </el-input>
+                                    <el-select v-model="form.lowerOfficialAccountRule" placeholder="请选择性别" size="null" style="margin-left: 15px;">
+                                        <el-option label="不限" value="不限"></el-option>
+                                        <el-option label="男" value="男"></el-option>
+                                        <el-option label="女" value="女"></el-option>
+                                    </el-select>
+                                </div>
                                 <div class="title">专属原文阅读链接</div>
                                 <div class="copy">
                                     <el-input
@@ -88,7 +116,12 @@ export default {
                 imagePath: '',
                 copyrightInfo: '',
                 groupContent: '',
-                url: ''
+                url: '',
+                lowerWxAccount: '',
+                lowerWxAccountRule: '',
+                lowerOfficialAccount: '',
+                lowerOfficialAccountRule: '',
+                region: ''
             }
         };
     },
@@ -114,6 +147,10 @@ export default {
                     that.form.groupContent = res.data.groupContent
                     that.form.imagePath = res.data.qrImage
                     that.form.url = res.data.domainName
+                    that.form.lowerWxAccount = res.data.lowerWxAccount
+                    that.form.lowerWxAccountRule = res.data.lowerWxAccountRule
+                    that.form.lowerOfficialAccount = res.data.lowerOfficialAccount
+                    that.form.lowerOfficialAccountRule = res.data.lowerOfficialAccountRule
                 }
             }).catch(err => {
                 that.$message.error(err)
@@ -127,7 +164,11 @@ export default {
                 groupContent: that.form.groupContent,
                 imagePath: '',
                 copyrightInfo: that.form.copyrightInfo,
-                domainName: that.form.url
+                domainName: that.form.url,
+                lowerWxAccount: that.form.lowerWxAccount,
+                lowerWxAccountRule: that.form.lowerWxAccountRule,
+                lowerOfficialAccount: that.form.lowerOfficialAccount,
+                lowerOfficialAccountRule: that.form.lowerOfficialAccountRule,
             }
             userInformationEdit(data).then(res => {
                 if (res.code === 0) {
