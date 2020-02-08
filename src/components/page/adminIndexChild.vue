@@ -47,6 +47,13 @@
                         <el-table-column label="管理操作" width="200" align="center">
                             <template slot-scope="scope">
                                 <el-button
+                                    v-if="scope.row.childCount > 0"
+                                    type="text"
+                                    icon="el-icon-search"
+                                    class="cha"
+                                    @click="getDataChild(scope.$index, scope.row)"
+                                >查看子账户</el-button>
+                                <el-button
                                     type="text"
                                     icon="el-icon-search"
                                     style="color:#64d572;"
@@ -118,9 +125,6 @@ export default {
         onRoutesAdd() {
             this.$router.push('/adminFormAdd')
         },
-        onRoutes(index, row) {
-            this.$router.push('/adminIndexChild')
-        },
         onRouteHost(index, row) {
             this.$router.push({
                 path:'/adminHostUser',
@@ -137,6 +141,9 @@ export default {
                     id:row.id
                 }
             })
+        },
+        getDataChild (index, row) {
+            this.getData(row.id)
         },
         getData(parentId) {
             let that = this
