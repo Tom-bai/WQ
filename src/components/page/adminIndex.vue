@@ -67,7 +67,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column prop="capacity" label="检测量"></el-table-column>
-                        <!-- <el-table-column prop="sheng" width="100" label="剩余关注量"></el-table-column> -->
+                        <el-table-column prop="siteCount" width="80" label="站点数量"></el-table-column>
                         <el-table-column prop="endTime" width="140" label="有效期"></el-table-column>
                         <el-table-column label="状态" align="center">
                             <template slot-scope="scope">
@@ -76,7 +76,7 @@
                                 <el-tag type="info" v-if="scope.row.state === 2">锁定</el-tag>
                             </template>
                         </el-table-column>
-                        <el-table-column label="管理操作" width="240" align="center">
+                        <el-table-column label="管理操作" width="200" align="center">
                             <template slot-scope="scope">
                                 <el-button
                                     type="text"
@@ -84,6 +84,12 @@
                                     class="cha"
                                     @click="onRoutes(scope.$index, scope.row)"
                                 >查看子账户</el-button>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-search"
+                                    style="color:#64d572;"
+                                    @click="onRouteHost(scope.$index, scope.row)"
+                                >查看站点</el-button>
                                 <el-button
                                     type="text"
                                     icon="el-icon-edit"
@@ -158,6 +164,15 @@ export default {
                 query:{
                     id:row.id,
                     name: row.name
+                }
+            })
+        },
+        onRouteHost(index, row) {
+            this.$router.push({
+                path:'/adminHostUser',
+                query:{
+                    userId:row.id,
+                    userName: row.name
                 }
             })
         },

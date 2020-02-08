@@ -35,8 +35,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column prop="capacity" label="检测量"></el-table-column>
-                        <!-- <el-table-column prop="tola" label="总检测量"></el-table-column>
-                        <el-table-column prop="sheng" width="100" label="剩余关注量"></el-table-column> -->
+                        <el-table-column prop="siteCount" width="80" label="站点数量"></el-table-column>
                         <el-table-column prop="endTime" width="200" label="有效期"></el-table-column>
                         <el-table-column label="状态" align="center">
                             <template slot-scope="scope">
@@ -47,12 +46,12 @@
                         </el-table-column>
                         <el-table-column label="管理操作" width="200" align="center">
                             <template slot-scope="scope">
-                                <!-- <el-button
+                                <el-button
                                     type="text"
                                     icon="el-icon-search"
-                                    class="cha"
-                                    @click="onRoutes(scope.$index, scope.row)"
-                                >查看子账户</el-button> -->
+                                    style="color:#64d572;"
+                                    @click="onRouteHost(scope.$index, scope.row)"
+                                >查看站点</el-button>
                                 <el-button
                                     type="text"
                                     icon="el-icon-edit"
@@ -121,6 +120,15 @@ export default {
         },
         onRoutes(index, row) {
             this.$router.push('/adminIndexChild')
+        },
+        onRouteHost(index, row) {
+            this.$router.push({
+                path:'/adminHostUser',
+                query:{
+                    userId:row.id,
+                    userName: row.name
+                }
+            })
         },
         onRoutesEdit(index, row) {
             this.$router.push({

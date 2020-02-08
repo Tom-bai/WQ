@@ -85,6 +85,16 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "adminHost" */ '../components/page/adminHostAdd.vue'),
                     meta: { title: '添加域名', permission: true }
                 },
+                {
+                    path: '/adminHostUser',
+                    component: () => import(/* webpackChunkName: "adminHostUser" */ '../components/page/adminHostUser.vue'),
+                    meta: { title: '域名管理', permission: true }
+                },
+                {
+                    path: '/adminHostUserAdd',
+                    component: () => import(/* webpackChunkName: "adminHostUserAdd" */ '../components/page/adminHostUserAdd.vue'),
+                    meta: { title: '添加域名', permission: true }
+                },
                 // user
                 {
                     path: '/userIndex',

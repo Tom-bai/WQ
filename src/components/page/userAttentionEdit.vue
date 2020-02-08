@@ -13,11 +13,11 @@
                                     <el-radio-group v-model="form.type" @change="onWx">
                                         <el-radio label="0">加好友</el-radio>
                                         <el-radio label="1">加公众号</el-radio>
-                                        <el-radio label="2">加群</el-radio>
+                                        <el-radio label="2" v-if="qun == 1">加群</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
                                 <el-form-item :label="tipWx" prop="wxAcc">
-                                    <el-input v-model="form.wxAcc" placeholder="请输入号码"></el-input>
+                                    <el-input v-model="form.wxAcc" :placeholder="tipP"></el-input>
                                 </el-form-item>
                                 <el-form-item label="性别">
                                     <el-radio-group v-model="form.gender" @change="onSix">
@@ -64,12 +64,14 @@
 </template>
 
 <script>
-import { userAttentionEdit,userAttentionSearch } from '../../api/index';
+import { userAttentionEdit,userAttentionSearch ,adminCanAddGroup} from '../../api/index';
 export default {
     name: 'userAttentionAdd',
     data() {
         return {
             tipWx: '微信号',
+            tipP: '微信号码',
+            qun: '',
             form: {
                 id: '',
                 wxAcc: '',
@@ -95,10 +97,13 @@ export default {
         onWx (val) {
             if (val == 0) {
                 this.tipWx = '微信号'
+                this.tipP = '微信号码'
             } else if (val == 1) {
                 this.tipWx = '公众号'
+                this.tipP = '微信公众号码'
             } else if (val == 2) {
-                this.tipWx = '微信号'
+                this.tipWx = '微信ID|微信账号'
+                this.tipP = '微信ID|微信账号'
             }
             this.form.type = val
         },
@@ -126,6 +131,11 @@ export default {
             }).catch(err => {
                 that.$message.error(err)
             })
+            adminCanAddGroup().then(res => {
+                that.qun = res.data
+            }).catch(err => {
+                that.$message.error(err)
+            })
         },
         onSubmit() {
             let that = this
@@ -143,6 +153,7 @@ export default {
                     userAttentionEdit(data).then(res => {
                         if (res.code === 0) {
                             that.$message.success(res.data)
+                            that.resetForm()
                         } else {
                             that.$message.error(res.message)
                         }
@@ -153,7 +164,9 @@ export default {
             })
         },
         resetForm() {
-            this.$refs.form.resetFields();
+            setTimeout(() => {
+                this.$router.go(-1)
+            }, 500);
         }
     }
 };

@@ -43,9 +43,9 @@
                                     <el-form-item label="增加金币">
                                         <el-input v-model="form.goldCoinX"></el-input>
                                     </el-form-item>
-                                    <!-- <el-form-item label="添加域名" >
-                                        <el-input v-model="form.url"></el-input>
-                                    </el-form-item> -->
+                                    <el-form-item label="是否加群">
+                                        <el-checkbox v-model="form.canAddGroup"></el-checkbox>
+                                    </el-form-item>
                                 </div>
                                 <el-form-item>
                                     <el-button type="primary" @click="onSubmit">提交保存</el-button>
@@ -77,7 +77,8 @@ export default {
                 daysX: '',
                 url: '',
                 goldCoin: '',
-                goldCoinX: ''
+                goldCoinX: '',
+                canAddGroup: false
             },
             rules: {
                 name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -110,7 +111,7 @@ export default {
                     password: res.data.passwd,
                     type: `${res.data.type}`,
                     days: res.data.days,
-                    // url: res.data.domainName,
+                    canAddGroup: res.data.canAddGroup == 1?true: false,
                     goldCoin: res.data.goldCoin
                 }
             }).catch(err => {
@@ -128,7 +129,7 @@ export default {
                         passwd: that.form.password,
                         days: that.form.daysX,
                         type: that.form.type,
-                        // domainName: that.form.url,
+                        canAddGroup: that.form.canAddGroup?1:0,
                         goldCoin: that.form.goldCoinX
                     }
                     adminAccounEdit(data).then(res => {

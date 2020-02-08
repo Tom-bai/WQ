@@ -4,8 +4,8 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="top-flex">
-                        <span>站点管理</span>
-                        <!-- <el-button type="primary" icon="el-icon-circle-plus-outline" plain @click="onRoutes(0)">新增站点</el-button> -->
+                        <span>{{$route.query.userName}}站点管理</span>
+                        <el-button type="primary" icon="el-icon-circle-plus-outline" plain @click="onRoutes(0)">新增站点</el-button>
                     </div>
                     <div class="handle-box">
                         <el-input v-model="query.name" size="null" placeholder="输入站点" class="handle-input mr10"></el-input>
@@ -100,23 +100,21 @@ export default {
     },
     methods: {
         onRoutes(index,row) {
-            if (this.query.userId == '' || this.query.userId == null) {
-                this.$message.error('缺少会员id')
-                return false
-            }
             this.$router.push({
-                path:'/adminHostAdd',
+                path:'/adminHostUserAdd',
                 query:{
                     id: this.query.userId,
+                     userName: this.$route.query.userName,
                     type: 'add'
                 }
             })
         },
         onRoutesEdit(index,row) {
             this.$router.push({
-                path:'/adminHostAdd',
+                path:'/adminHostUserAdd',
                 query:{
                     id: row.id,
+                    userName: this.$route.query.userName,
                     type: 'edit'
                 }
             })

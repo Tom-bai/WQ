@@ -4,12 +4,12 @@
             <el-col :span="24">
                 <el-card shadow="hover">
                     <div slot="header" class="top-flex">
-                        <span>{{$route.query.type == 'edit'?'编辑站点':'添加站点'}}</span>
+                        <span>{{$route.query.userName}}{{$route.query.type == 'edit'?'编辑站点':'添加站点'}}</span>
                     </div>
                     <div class="container">
                         <div class="form-box">
                             <el-form ref="form" :model="form" size="null" label-width="100px">
-                                <el-form-item label="原始链接" v-if="add">
+                                <el-form-item label="原始链接">
                                     <div class="copy">
                                         <el-input v-model="yuan" disabled="disabled" placeholder="请输入站点"></el-input>
                                         <el-button class="btns" v-clipboard:copy="yuan" v-clipboard:success="onCopy">复制</el-button>
@@ -38,7 +38,6 @@ export default {
     name: 'adminHostAdd',
     data() {
         return {
-            add: true,
             yuan: '',
             form: {
                 site: ''
@@ -61,13 +60,11 @@ export default {
     created() {
         if (this.$route.query.type == 'edit') {
             this.getData(this.$route.query.id)
-            this.add = true
-        } else if (this.$route.query.type == 'add') {
-            this.add = false
         }
         if (this.$route.query.id) {
             this.form.accountId = this.$route.query.id
         }
+        this.getYuan(this.$route.query.id)
     },
     methods: {
         onCopy() {  
@@ -81,6 +78,9 @@ export default {
             }).catch(err => {
                 console.log(err);
             })
+        },
+        getYuan (id) {
+            let that = this
             adminRealsite(id).then(res => {
                 that.yuan = res.data
             }).catch(err => {

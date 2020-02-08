@@ -403,3 +403,23 @@ export const adminDeleteSite = query => {
         },
     });
 };
+
+export const adminCanAddGroup = query => {
+    return request({
+        url: `${baseUrl}/attention/canAddGroup`,
+        method: 'get',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminRealsite = query => {
+    return request({
+        url: `${baseUrl}/realsite/${query}`,
+        method: 'get',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};

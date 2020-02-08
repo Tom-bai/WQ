@@ -13,11 +13,18 @@
                                     <el-radio-group v-model="form.type" @change="onWx">
                                         <el-radio label="0">加好友</el-radio>
                                         <el-radio label="1">加公众号</el-radio>
-                                        <el-radio label="2">加群</el-radio>
+                                        <el-radio label="2" v-if="qun == 1">加群</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
+                                <!-- <el-form-item label="二维码" v-if="form.type == 2">
+                                    <img width="150" src="../../assets/img/tb2.png" alt="">
+                                </el-form-item> -->
                                 <el-form-item :label="tipWx" prop="wxAcc">
-                                    <el-input v-model="form.wxAcc" :placeholder="tipP"></el-input>
+                                    <div class="input"> 
+                                        <el-input v-model="form.wxAcc" :placeholder="tipP"></el-input>
+                                        <!-- <el-input v-model="form.wxAcc" :disabled="form.type == 2?true:false" :placeholder="tipP"></el-input> -->
+                                        <!-- <el-button v-if="form.type == 2" type="info" style="margin-left: 15px;">获取二维码</el-button> -->
+                                    </div>
                                 </el-form-item>
                                 <el-form-item label="性别">
                                     <el-radio-group v-model="form.gender" @change="onSix">
@@ -54,7 +61,7 @@
 </template>
 
 <script>
-import { userAttentionAdd,userChildgoldCoin } from '../../api/index';
+import { userAttentionAdd,userChildgoldCoin,adminCanAddGroup } from '../../api/index';
 export default {
     name: 'userAttentionAdd',
     data() {
@@ -62,6 +69,7 @@ export default {
             tipWx: '微信号',
             tipP: '微信号码',
             goldCoin: 0,
+            qun: '',
             form: {
                 wxAcc: '',
                 total: '',
@@ -79,8 +87,17 @@ export default {
     },
     created() {
         this.getUserChildgoldCoin()
+        this.getData()
     },
     methods: {
+        getData() {
+            let that = this
+            adminCanAddGroup().then(res => {
+                that.qun = res.data
+            }).catch(err => {
+                that.$message.error(err)
+            })
+        },
         getUserChildgoldCoin () {
             let that = this
             userChildgoldCoin().then(res => {
@@ -147,5 +164,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.input{
+    display: flex;
+    align-items: center;
 }
 </style>
