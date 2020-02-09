@@ -4,87 +4,52 @@
             <el-col :span="24">
                 <el-card>
                     <div slot="header" class="top-flex">
-                        <span>编辑关注</span>
+                        <span>信息管理</span>
+                        <el-button type="primary" icon="el-icon-circle-plus-outline" plain @click="onRoutesAdd">新增模板</el-button>
                     </div>
-                    <div class="container">
-                        <div class="form-box">
-                            <div class="title">分享图(750*1260)</div>
-                            <el-upload
-                                class="upload-demo"
-                                :action="action"
-                                :headers="headers"
-                                :data="upData"
-                                :limit='1'
-                                :on-exceed="handleExceedAD"
-                                :on-preview="handlePreviewAD"
-                                :on-success="handSuccessAD"
-                                :file-list="fileListAD"
-                                ref="upload"
-                                list-type="picture-card">
-                                <i class="el-icon-plus"></i>
-                            </el-upload>
-                            <el-dialog :visible.sync="dialogVisibleAD">
-                                <img width="100%" :src="dialogImageUrlAD" alt="">
-                            </el-dialog>
-                            <!-- <el-image
-                                style="width: 200px;"
-                                :src="form.imagePath"
-                                :preview-src-list="[form.imagePath]">
-                            </el-image> -->
-                            <el-input
-                                size="null"
-                                type="textarea"
-                                class="textarea"
-                                :rows="6"
-                                placeholder="请输入内容"
-                                v-model="form.groupContent">
-                            </el-input>
-                            <!-- <div class="title">自动添加好友设置（所有下级会员的清粉用户也会关注此号）</div>
-                            <el-input
-                                size="null"
-                                placeholder="自动添加的好友，请输入唯一微信账号"
-                                v-model="form.wxAccount"
-                                clearable>
-                            </el-input>
-                            <div class="title">自动添加公众号设置（所有下级会员的清粉用户也会关注此号</div>
-                            <el-input
-                                size="null"
-                                placeholder="自动添加的公众号，输入唯一公众账号"
-                                v-model="form.officialAccount"
-                                clearable>
-                            </el-input>
-                            <div class="title">版权设置</div>
-                            <el-input
-                                size="null"
-                                placeholder="如果你也想定制这样的链接，请联系微信: 18578640282"
-                                v-model="form.copyrightInfo"
-                                clearable>
-                            </el-input> -->
-                            <div class="btn">
-                                <el-button type="primary" size="null" @click="onSubmit">提交保存</el-button>
-                            </div>
-                        </div>
-                        <div class="bgimg" v-if="bgImg">
-                            <img :src="imgUrl + bgImg" alt="">
-                            <vue-draggable-resizable
-                                :w="form.avatarW"
-                                :h="form.avatarH"
-                                :x="form.avatarX"
-                                :y="form.avatarY"
-                                :resizable="true"
-                                :parent="true"
-                                :max-height="1000"
-                                :max-width="1000"
-                                :min-width="100"
-                                :min-height="100"
-                                :handles="['tl','tr','br','bl']"
-                                :is-conflict-check="true"
-                                class="qrcode"
-                                @dragging="onDrag"
-                                @resizing="onResize"
-                            >
-                            </vue-draggable-resizable>
-                        </div>
+                    <!-- <div class="handle-box">
+                        <el-input v-model="query.name" size="null" placeholder="编号" class="handle-input mr10"></el-input>
+                        <el-button type="primary"  size="null" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                    </div> -->
+                    <el-table
+                        :data="tableData"
+                        border
+                        class="table"
+                        ref="multipleTable"
+                        header-cell-class-name="table-header"
+                    >
+                        <el-table-column prop="id" label="编号" width="55" align="center"></el-table-column>
+                        <el-table-column prop="name" label="图片" align="center">
+                            <template slot-scope="scope">
+                                <img :src="imgUrl + scope.row.imagePath" alt="" width="100">
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="gmtCreate" label="添加时间" align="center"></el-table-column>
+                        <el-table-column label="管理操作" width="100" align="center">
+                            <template slot-scope="scope">
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-edit"
+                                    @click="onRoutesEdit(scope.$index, scope.row)"
+                                >编辑</el-button>
+                                <el-button
+                                    type="text"
+                                    icon="el-icon-delete"
+                                    style="color:red;"
+                                    @click="onAdminDelete(scope.$index, scope.row)"
+                                >删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <div class="pagination">
+                        <el-pagination
+                            background
+                            layout="total, prev, pager, next"
+                            :current-page="query.pageIndex"
+                            :page-size="query.pageSize"
+                            :total="pageTotal"
+                            @current-change="handlePageChange"
+                        ></el-pagination>
                     </div>
                 </el-card>
             </el-col>
@@ -93,43 +58,28 @@
 </template>
 
 <script>
-import bus from '../common/bus';
-import Vue from 'vue'
-
-import VueDraggableResizable from 'vue-draggable-resizable'
-// optionally import default styles
-import 'vue-draggable-resizable/dist/VueDraggableResizable.css'
-Vue.component('vue-draggable-resizable', VueDraggableResizable)
-
-import { adminInformationInfotemp,adminInformationEdit } from '../../api/index';
+import { adminInfotemp,adminDeleteInfotemp } from '../../api/index';
 export default {
     name: 'adminInformation',
     data() {
         return {
-            dataInfo: [],
-            action: '/api/file',
-            headers: {
-                Authentication: localStorage.getItem('token')
+            childcount: [],
+            query: {
+                parentId: '',
+                name: '',
+                pageIndex: 1,
+                pageSize: 10
             },
-            upData: {
-                module: 'template'
-            },
-            fileListAD: [],
-            dialogImageUrlAD: '',
-            dialogVisibleAD: false,
+            tableData: [],
+            multipleSelection: [],
+            delList: [],
+            editVisible: false,
+            pageTotal: 0,
+            form: {},
+            idx: -1,
+            id: -1,
+            allCapacity: 0,
             imgUrl: `/api/file/download?filePath=` ,
-            bgImg: '',
-            form: {
-                wxAccount: '',
-                officialAccount: '',
-                imagePath: '',
-                copyrightInfo: '',
-                groupContent: '',
-                avatarX: 0,
-                avatarY: 0,
-                avatarW: 100,
-                avatarH: 100,
-            },
         };
     },
     components: {
@@ -140,107 +90,107 @@ export default {
     computed: {
     },
     methods: {
+        onRoutesAdd(){
+            this.$router.push({
+                path:'/adminInformationAdd',
+                query:{
+                    type: 'add'
+                }
+            })
+        },
+        onRoutesEdit(index,row){
+            this.$router.push({
+                path:'/adminInformationAdd',
+                query:{
+                    id: row.id,
+                    type: 'edit'
+                }
+            })
+        },
+        onAdminDelete(){},
         getData () {
             let that = this
-            adminInformationInfotemp().then(res => {  
-                if (res.data !== null) {
-                    // that.form.wxAccount = res.data.wxAccount
-                    // that.form.officialAccount = res.data.officialAccount
-                    // that.form.copyrightInfo = res.data.copyrightInfo
-                    that.form.groupContent = res.data.groupContent
-                    // that.form.imagePath = res.data.qrImage
-                    that.bgImg =  res.data.imagePath
-                    that.form.avatarX = res.data.qrX
-                    that.form.avatarY = res.data.qrY
-                    that.form.avatarW = res.data.qrW
-                    that.form.avatarH = res.data.qrH
-                }
+            adminInfotemp().then(res => {  
+                this.tableData = res.data.records
+                this.pageTotal = res.data.total
             }).catch(err => {
                 that.$message.error(err)
             })
         },
-        onSubmit() {
+        // 触发搜索按钮
+        handleSearch() {
+            this.query.pageIndex = 1
+            this.tableData = []
+            this.getData()
+        },
+        // 删除操作
+        onAdminDelete(index, row) {
             let that = this
-            let data = {
-                imagePath: that.form.titleImage,
-                groupContent: that.form.groupContent,
-                qrH:that.form.avatarH,
-                qrW:that.form.avatarW,
-                qrX:that.form.avatarX,
-                qrY:that.form.avatarY,
-            }
-            adminInformationEdit(data).then(res => {
-                if (res.code === 0) {
-                    that.$message.success(res.data)
-                    // that.resetForm()
-                } else {
-                    that.$message.error(res.message)
-                }
-            }).catch(err => {
-                that.$message.error(err)
-            })
+            let data = [row.id]
+            that.$confirm('是否确认删除数据?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                    adminDeleteInfotemp(data).then(res => {
+                        if (res.code === 0) {
+                            that.$message.success(res.data)
+                            that.tableData.splice(index,1)
+                        } else {
+                            that.$message.error(res.message)
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+            });
         },
-        resetForm() {
-            setTimeout(() => {
-                this.$router.go(-1)
-            }, 500);
-        },
-        onResize: function(x, y, width, height) {
-            this.$nextTick(() => {
-                this.form.avatarX = x
-                this.form.avatarY = y
-                this.form.avatarW = width
-                this.form.avatarH = height
-            })
-        },
-        onDrag: function(x, y) {
-            this.$nextTick(() => {
-                this.form.avatarX = x
-                this.form.avatarY = y
-            })
-        },
-        handleExceedAD(files, fileList) {
-            this.$message.warning(`当前限制选择 1 个文件，请删除原文件再上传`);
-        },
-        handlePreviewAD(file) {
-            this.dialogImageUrlAD = file.url;
-            this.dialogVisibleAD = true;
-        },
-        handSuccessAD(file) {
-            this.bgImg = file.data.path
-            this.form.titleImage = file.data.path
-        },
+        // 分页导航
+        handlePageChange(val) {
+            this.$set(this.query, 'pageIndex', val);
+            this.getData();
+        }
     }
 };
 </script>
 
 
 <style scoped>
-.textarea{
-    margin-top: 20px;
-}
-.title{
-    line-height: 50px;
-}
-.btn{
-    text-align: center;
-    margin-top: 30px;
-}
-.container{
+.top-flex{
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-.bgimg{
-    margin-left: 20px;
-    position: relative;
+.handle-box {
+    margin-bottom: 20px;
 }
-.bgimg>img{
-    width: 207px;
-    border: solid 1px #999;
+
+.handle-select {
+    width: 120px;
 }
-.qrcode{
-  background-image: url('../../assets/img/qrcode.jpg');
-  background-size: 100% 100%;
+
+.handle-input {
+    width: 300px;
+    display: inline-block;
 }
-.form-box{
+.table {
+    width: 100%;
+    font-size: 14px;
+}
+.cha {
+    color: #F90;
+}
+.mr10 {
+    margin-right: 10px;
+}
+.table-td-thumb {
+    display: block;
+    margin: auto;
+    width: 40px;
+    height: 40px;
 }
 </style>

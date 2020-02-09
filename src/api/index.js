@@ -423,3 +423,44 @@ export const adminRealsite = query => {
         },
     });
 };
+
+export const adminInfotemp = query => {
+    return request({
+        url: `${baseUrl}/infotemp`,
+        method: 'get',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminInfotempGet = query => {
+    return request({
+        url: `${baseUrl}/infotemp/${query}`,
+        method: 'get',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminDeleteInfotemp = query => {
+    return request({
+        url: `${baseUrl}/infotemp/${query}`,
+        method: 'delete',
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};
+
+export const adminPostInfotemp = putData => {
+    return request({
+        url: `${baseUrl}/infotemp`,
+        method: 'post',
+        data: putData,
+        headers: {
+            Authentication: localStorage.getItem('token')
+        },
+    });
+};

@@ -89,7 +89,7 @@ export default {
                 {
                     icon: 'icon-t4',
                     index: 'adminInformation',
-                    title: '信息编辑'
+                    title: '信息管理'
                 },
                 {
                     icon: 'icon-t6',

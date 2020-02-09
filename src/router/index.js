@@ -68,6 +68,11 @@ export default new Router({
                 {
                     path: '/adminInformation',
                     component: () => import(/* webpackChunkName: "adminInformation" */ '../components/page/adminInformation.vue'),
+                    meta: { title: '信息列表', permission: true }
+                },
+                {
+                    path: '/adminInformationAdd',
+                    component: () => import(/* webpackChunkName: "adminInformationAdd" */ '../components/page/adminInformationAdd.vue'),
                     meta: { title: '信息编辑', permission: true }
                 },
                 {
