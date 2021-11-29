@@ -13,7 +13,7 @@
     "clipboard": "^2.0.4",
     "element-ui": "^2.11.0",
     "js-md5": "^0.7.3",
-    "mavon-editor": "^2.6.17",
+    "mavon-editor": "^2.8.2",
     "vue": "^2.6.10",
     "vue-cropperjs": "^3.0.0",
     "vue-draggable-resizable": "^2.1.0",
